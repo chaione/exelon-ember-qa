@@ -103,7 +103,7 @@ define('portal/tests/components/element-dropdown/component.jshint', ['exports'],
   QUnit.module('JSHint | components/element-dropdown/component.js');
   QUnit.test('should pass jshint', function (assert) {
     assert.expect(1);
-    assert.ok(false, 'components/element-dropdown/component.js should pass jshint.\ncomponents/element-dropdown/component.js: line 32, col 7, Misleading line break before \'?\'; readers may interpret this as an expression boundary.\n\n1 error');
+    assert.ok(false, 'components/element-dropdown/component.js should pass jshint.\ncomponents/element-dropdown/component.js: line 32, col 7, Bad line breaking before \'?\'.\n\n1 error');
   });
 });
 define('portal/tests/components/element-free-text/component.jshint', ['exports'], function (exports) {
@@ -337,7 +337,7 @@ define('portal/tests/form/controller.jshint', ['exports'], function (exports) {
   QUnit.module('JSHint | form/controller.js');
   QUnit.test('should pass jshint', function (assert) {
     assert.expect(1);
-    assert.ok(false, 'form/controller.js should pass jshint.\nform/controller.js: line 13, col 15, \'form\' is defined but never used.\nform/controller.js: line 14, col 15, \'lastSection\' is defined but never used.\nform/controller.js: line 24, col 15, \'form\' is defined but never used.\nform/controller.js: line 35, col 17, \'newSection\' is defined but never used.\nform/controller.js: line 47, col 76, Expected \'===\' and instead saw \'==\'.\nform/controller.js: line 58, col 76, Expected \'===\' and instead saw \'==\'.\nform/controller.js: line 67, col 40, Expected \'===\' and instead saw \'==\'.\nform/controller.js: line 145, col 13, \'$\' is not defined.\n\n8 errors');
+    assert.ok(false, 'form/controller.js should pass jshint.\nform/controller.js: line 13, col 17, \'form\' is defined but never used.\nform/controller.js: line 14, col 17, \'lastSection\' is defined but never used.\nform/controller.js: line 30, col 17, \'newSection\' is defined but never used.\nform/controller.js: line 40, col 76, Expected \'===\' and instead saw \'==\'.\nform/controller.js: line 51, col 76, Expected \'===\' and instead saw \'==\'.\nform/controller.js: line 60, col 40, Expected \'===\' and instead saw \'==\'.\nform/controller.js: line 133, col 13, \'$\' is not defined.\n\n7 errors');
   });
 });
 define('portal/tests/form/model.jshint', ['exports'], function (exports) {
@@ -450,15 +450,13 @@ define('portal/tests/helpers/ember-power-select', ['exports', 'ember'], function
   exports.triggerKeydown = triggerKeydown;
   exports.typeInSearch = typeInSearch;
   exports.clickTrigger = clickTrigger;
-  exports.nativeTouch = nativeTouch;
-  exports.touchTrigger = touchTrigger;
 
   // Helpers for integration tests
 
   function typeText(selector, text) {
-    var $selector = $($(selector).get(0)); // Only interact with the first result
+    var $selector = $(selector);
     $selector.val(text);
-    var event = document.createEvent('Events');
+    var event = document.createEvent("Events");
     event.initEvent('input', true, true);
     $selector[0].dispatchEvent(event);
   }
@@ -490,7 +488,7 @@ define('portal/tests/helpers/ember-power-select', ['exports', 'ember'], function
   }
 
   function triggerKeydown(domElement, k) {
-    var oEvent = document.createEvent('Events');
+    var oEvent = document.createEvent("Events");
     oEvent.initEvent('keydown', true, true);
     $.extend(oEvent, {
       view: window,
@@ -508,7 +506,7 @@ define('portal/tests/helpers/ember-power-select', ['exports', 'ember'], function
 
   function typeInSearch(text) {
     _ember['default'].run(function () {
-      typeText('.ember-power-select-search-input, .ember-power-select-search input, .ember-power-select-trigger-multiple-input, input[type="search"]', text);
+      typeText('.ember-power-select-search input, .ember-power-select-trigger-multiple-input', text);
     });
   }
 
@@ -522,37 +520,13 @@ define('portal/tests/helpers/ember-power-select', ['exports', 'ember'], function
     nativeMouseDown(selector, options);
   }
 
-  function nativeTouch(selectorOrDomElement) {
-    var event = new window.Event('touchstart', { bubbles: true, cancelable: true, view: window });
-    var target = undefined;
-
-    if (typeof selectorOrDomElement === 'string') {
-      target = _ember['default'].$(selectorOrDomElement)[0];
-    } else {
-      target = selectorOrDomElement;
-    }
-    _ember['default'].run(function () {
-      return target.dispatchEvent(event);
-    });
-    _ember['default'].run(function () {
-      event = new window.Event('touchend', { bubbles: true, cancelable: true, view: window });
-      target.dispatchEvent(event);
-    });
-  }
-
-  function touchTrigger() {
-    var selector = '.ember-power-select-trigger';
-    nativeTouch(selector);
-  }
-
   // Helpers for acceptance tests
 
   exports['default'] = function () {
     var isEmberOne = _ember['default'].VERSION.match(/1\.13/);
 
     _ember['default'].Test.registerAsyncHelper('selectChoose', function (app, cssPath, value) {
-      var match = find(cssPath).find('.ember-power-select-trigger').attr('id').match(/\d+$/);
-      var id = match[0];
+      var id = find(cssPath).find('.ember-power-select-trigger').attr('id').match(/ember-power-select-trigger-ember(\d+)/)[1];
       // If the dropdown is closed, open it
       if (_ember['default'].$('.ember-power-select-dropdown-ember' + id).length === 0) {
         nativeMouseDown(cssPath + ' .ember-power-select-trigger');
@@ -575,7 +549,7 @@ define('portal/tests/helpers/ember-power-select', ['exports', 'ember'], function
     });
 
     _ember['default'].Test.registerAsyncHelper('selectSearch', function (app, cssPath, value) {
-      var id = find(cssPath).find('.ember-power-select-trigger').attr('id').replace(/\D/g, '');
+      var id = find(cssPath).find('.ember-power-select-trigger').attr('id').match(/ember-power-select-trigger-ember(\d+)/)[1];
       var isMultipleSelect = _ember['default'].$(cssPath + ' .ember-power-select-trigger-multiple-input').length > 0;
 
       var dropdownIsClosed = _ember['default'].$('.ember-power-select-dropdown-ember' + id).length === 0;
@@ -583,40 +557,24 @@ define('portal/tests/helpers/ember-power-select', ['exports', 'ember'], function
         nativeMouseDown(cssPath + ' .ember-power-select-trigger');
         wait();
       }
-      var isDefaultSingleSelect = _ember['default'].$('.ember-power-select-search-input').length > 0;
 
       if (isMultipleSelect) {
         fillIn(cssPath + ' .ember-power-select-trigger-multiple-input', value);
         if (isEmberOne) {
           triggerEvent(cssPath + ' .ember-power-select-trigger-multiple-input', 'input');
         }
-      } else if (isDefaultSingleSelect) {
-        fillIn('.ember-power-select-search-input', value);
-        if (isEmberOne) {
-          triggerEvent('.ember-power-select-dropdown-ember' + id + ' .ember-power-select-search-input', 'input');
-        }
       } else {
-        // It's probably a customized version
-        var inputIsInTrigger = !!find(cssPath + ' .ember-power-select-trigger input[type=search]')[0];
-        if (inputIsInTrigger) {
-          fillIn(cssPath + ' .ember-power-select-trigger input[type=search]', value);
-          if (isEmberOne) {
-            triggerEvent(cssPath + ' .ember-power-select-trigger input[type=search]', 'input');
-          }
-        } else {
-          fillIn('.ember-power-select-dropdown-ember' + id + ' .ember-power-select-search-input[type=search]', 'input');
-          if (isEmberOne) {
-            triggerEvent('.ember-power-select-dropdown-ember' + id + ' .ember-power-select-search-input[type=search]', 'input');
-          }
+        fillIn('.ember-power-select-search input', value);
+        if (isEmberOne) {
+          triggerEvent('.ember-power-select-dropdown-ember' + id + ' .ember-power-select-search input', 'input');
         }
       }
     });
 
     _ember['default'].Test.registerAsyncHelper('removeMultipleOption', function (app, cssPath, value) {
-      var elem = find(cssPath + ' .ember-power-select-multiple-options > li:contains(' + value + ') > .ember-power-select-multiple-remove-btn').get(0);
+      var elem = find(cssPath + ' .ember-power-select-multiple-options > li:contains(' + value + ') > .ember-power-select-multiple-remove-btn')[0];
       try {
         nativeMouseDown(elem);
-        wait();
       } catch (e) {
         console.warn('css path to remove btn not found');
         throw e;
@@ -624,10 +582,9 @@ define('portal/tests/helpers/ember-power-select', ['exports', 'ember'], function
     });
 
     _ember['default'].Test.registerAsyncHelper('clearSelected', function (app, cssPath) {
-      var elem = find(cssPath + ' .ember-power-select-clear-btn').get(0);
+      var elem = find(cssPath + ' .ember-power-select-clear-btn')[0];
       try {
         nativeMouseDown(elem);
-        wait();
       } catch (e) {
         console.warn('css path to clear btn not found');
         throw e;
