@@ -6899,11 +6899,15 @@ define('ember-test-helpers/abstract-test-module', ['exports', 'klassy', 'ember-t
     },
 
     setupTestElements: function setupTestElements() {
-      if (!document.querySelector('#ember-testing')) {
+      var testEl = document.querySelector('#ember-testing');
+      if (!testEl) {
         var element = document.createElement('div');
         element.setAttribute('id', 'ember-testing');
 
         document.body.appendChild(element);
+        this.fixtureResetValue = '';
+      } else {
+        this.fixtureResetValue = testEl.innerHTML;
       }
     },
 
@@ -6941,7 +6945,7 @@ define('ember-test-helpers/abstract-test-module', ['exports', 'klassy', 'ember-t
     },
 
     teardownTestElements: function teardownTestElements() {
-      document.getElementById('ember-testing').innerHTML = '';
+      document.getElementById('ember-testing').innerHTML = this.fixtureResetValue;
 
       // Ember 2.0.0 removed Ember.View as public API, so only do this when
       // Ember.View is present
@@ -7152,7 +7156,7 @@ define('ember-test-helpers/test-module-for-acceptance', ['exports', 'ember-test-
     }
   });
 });
-define('ember-test-helpers/test-module-for-component', ['exports', 'ember-test-helpers/test-module', 'ember', 'ember-test-helpers/test-resolver', 'ember-test-helpers/has-ember-version', 'ember-test-helpers/-legacy-overrides'], function (exports, _emberTestHelpersTestModule, _ember, _emberTestHelpersTestResolver, _emberTestHelpersHasEmberVersion, _emberTestHelpersLegacyOverrides) {
+define('ember-test-helpers/test-module-for-component', ['exports', 'ember-test-helpers/test-module', 'ember', 'ember-test-helpers/has-ember-version', 'ember-test-helpers/-legacy-overrides'], function (exports, _emberTestHelpersTestModule, _ember, _emberTestHelpersHasEmberVersion, _emberTestHelpersLegacyOverrides) {
   'use strict';
 
   exports.setupComponentIntegrationTest = setupComponentIntegrationTest;
@@ -7229,7 +7233,7 @@ define('ember-test-helpers/test-module-for-component', ['exports', 'ember-test-h
 
     setupComponentUnitTest: function setupComponentUnitTest() {
       var _this = this;
-      var resolver = (0, _emberTestHelpersTestResolver.getResolver)();
+      var resolver = this.resolver;
       var context = this.context;
 
       var layoutName = 'template:components/' + this.componentName;
@@ -7467,6 +7471,11 @@ define('ember-test-helpers/test-module-for-integration', ['exports', 'ember', 'e
   }
 
   exports['default'] = _emberTestHelpersAbstractTestModule['default'].extend({
+    init: function init() {
+      this._super.apply(this, arguments);
+      this.resolver = this.callbacks.resolver || (0, _emberTestHelpersTestResolver.getResolver)();
+    },
+
     initSetupSteps: function initSetupSteps() {
       this.setupSteps = [];
       this.contextualizedSetupSteps = [];
@@ -7519,7 +7528,7 @@ define('ember-test-helpers/test-module-for-integration', ['exports', 'ember', 'e
     },
 
     setupContainer: function setupContainer() {
-      var resolver = (0, _emberTestHelpersTestResolver.getResolver)();
+      var resolver = this.resolver;
       var items = (0, _emberTestHelpersBuildRegistry['default'])(resolver);
 
       this.container = items.container;
@@ -7724,6 +7733,7 @@ define('ember-test-helpers/test-module', ['exports', 'ember', 'ember-test-helper
       this.description = description || subjectName;
       this.name = description || subjectName;
       this.callbacks = callbacks || {};
+      this.resolver = this.callbacks.resolver || (0, _emberTestHelpersTestResolver.getResolver)();
 
       if (this.callbacks.integration && this.callbacks.needs) {
         throw new Error("cannot declare 'integration: true' and 'needs' in the same module");
@@ -7943,7 +7953,7 @@ define('ember-test-helpers/test-module', ['exports', 'ember', 'ember-test-helper
     },
 
     _setupContainer: function _setupContainer(isolated) {
-      var resolver = (0, _emberTestHelpersTestResolver.getResolver)();
+      var resolver = this.resolver;
 
       var items = (0, _emberTestHelpersBuildRegistry['default'])(!isolated ? resolver : Object.create(resolver, {
         resolve: {
@@ -7963,7 +7973,7 @@ define('ember-test-helpers/test-module', ['exports', 'ember', 'ember-test-helper
     },
 
     _setupIsolatedContainer: function _setupIsolatedContainer() {
-      var resolver = (0, _emberTestHelpersTestResolver.getResolver)();
+      var resolver = this.resolver;
       this._setupContainer(true);
 
       var thingToRegisterWith = this.registry || this.container;

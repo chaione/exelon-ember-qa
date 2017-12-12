@@ -5096,7 +5096,12 @@ define('portal/form/controller', ['exports', 'ember', 'portal/config/environment
             },
 
             userDidClickElement: function userDidClickElement(elementClicked) {
-                elementClicked.set('metadata', elementClicked.get('metadata') || {});
+                var metadata = elementClicked.get('metadata') || {};
+                if (_.isString(metadata)) {
+                    metadata = JSON.parse(metadata);
+                }
+
+                elementClicked.set('metadata', metadata);
                 this.set('activeElement', elementClicked);
             },
 
@@ -6084,6 +6089,20 @@ define('portal/helpers/is-array', ['exports', 'ember', 'ember-truth-helpers/help
 
   exports['default'] = forExport;
 });
+define('portal/helpers/is-equal', ['exports', 'ember-truth-helpers/helpers/is-equal'], function (exports, _emberTruthHelpersHelpersIsEqual) {
+  Object.defineProperty(exports, 'default', {
+    enumerable: true,
+    get: function get() {
+      return _emberTruthHelpersHelpersIsEqual['default'];
+    }
+  });
+  Object.defineProperty(exports, 'isEqual', {
+    enumerable: true,
+    get: function get() {
+      return _emberTruthHelpersHelpersIsEqual.isEqual;
+    }
+  });
+});
 define('portal/helpers/logger', ['exports', 'ember'], function (exports, _ember) {
   exports.logger = logger;
 
@@ -6262,6 +6281,18 @@ define('portal/initializers/export-application-global', ['exports', 'ember', 'po
   function initialize() {
     var application = arguments[1] || arguments[0];
     if (_portalConfigEnvironment['default'].exportApplicationGlobal !== false) {
+      var theGlobal;
+      if (typeof window !== 'undefined') {
+        theGlobal = window;
+      } else if (typeof global !== 'undefined') {
+        theGlobal = global;
+      } else if (typeof self !== 'undefined') {
+        theGlobal = self;
+      } else {
+        // no reasonable global, just bail
+        return;
+      }
+
       var value = _portalConfigEnvironment['default'].exportApplicationGlobal;
       var globalName;
 
@@ -6271,13 +6302,13 @@ define('portal/initializers/export-application-global', ['exports', 'ember', 'po
         globalName = _ember['default'].String.classify(_portalConfigEnvironment['default'].modulePrefix);
       }
 
-      if (!window[globalName]) {
-        window[globalName] = application;
+      if (!theGlobal[globalName]) {
+        theGlobal[globalName] = application;
 
         application.reopen({
           willDestroy: function willDestroy() {
             this._super.apply(this, arguments);
-            delete window[globalName];
+            delete theGlobal[globalName];
           }
         });
       }
@@ -6722,6 +6753,14 @@ define('portal/services/ajax', ['exports', 'ember-ajax/services/ajax'], function
 });
 define('portal/services/session', ['exports', 'ember-simple-auth/services/session'], function (exports, _emberSimpleAuthServicesSession) {
   exports['default'] = _emberSimpleAuthServicesSession['default'];
+});
+define('portal/services/text-measurer', ['exports', 'ember-text-measurer/services/text-measurer'], function (exports, _emberTextMeasurerServicesTextMeasurer) {
+  Object.defineProperty(exports, 'default', {
+    enumerable: true,
+    get: function get() {
+      return _emberTextMeasurerServicesTextMeasurer['default'];
+    }
+  });
 });
 define('portal/session-stores/application', ['exports', 'ember-simple-auth/session-stores/adaptive'], function (exports, _emberSimpleAuthSessionStoresAdaptive) {
   exports['default'] = _emberSimpleAuthSessionStoresAdaptive['default'].extend();
@@ -7829,7 +7868,7 @@ catch(err) {
 /* jshint ignore:start */
 
 if (!runningTests) {
-  require("portal/app")["default"].create({"name":"portal","version":"0.0.0+f0c945f3"});
+  require("portal/app")["default"].create({"name":"portal","version":"0.0.0+2f4df936"});
 }
 
 /* jshint ignore:end */
