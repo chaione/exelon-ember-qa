@@ -240,25 +240,6 @@
 .ember-power-select-dropdown[dir=rtl] .ember-power-select-group .ember-power-select-group-name {
   padding-right: 8px; }
 
-.sticky-header {
-  position: fixed;
-  margin-top: -8px;
-  color: #bfffea;
-  background-color: #4b4e55;
-  padding: 10px 0px;
-  margin-bottom: 10px;
-  font-size: 18px;
-  z-index: 100; }
-  .sticky-header a {
-    color: #bfffea;
-    text-decoration: underline; }
-  .sticky-header .active {
-    color: #bfffea !important; }
-  .sticky-header .breadcrumb > li + li:before {
-    color: #ccc;
-    content: ">";
-    padding: 0 5px; }
-
 /*!
  * Bootstrap v3.3.7 (http://getbootstrap.com)
  * Copyright 2011-2016 Twitter, Inc.
@@ -6094,16 +6075,17 @@ button.close {
 .element-parent .topOptions {
   position: relative;
   float: right;
-  width: 100%;
+  min-width: 400px;
+  width: 90%;
   margin-bottom: 20px;
   font-size: 20px; }
   .element-parent .topOptions .keyDropdown {
     max-width: 430px;
-    width: 100%;
+    width: 50%;
     display: inline-block; }
   .element-parent .topOptions .typeDropdown {
     max-width: 410px;
-    width: 100%;
+    width: 49%;
     display: inline-block; }
   .element-parent .topOptions .selectTypeIcon {
     height: 40px;
@@ -6114,14 +6096,11 @@ button.close {
 
 .element-parent:hover {
   border-left: 5px solid #5a5aaf;
-  background-color: #13172B;
   cursor: pointer; }
 
 .element-parent.is-active {
   box-shadow: 0px 0px 8px #bfffea;
-  border-top: 5px solid #01fea9;
-  border-left: 5px solid #01fea9;
-  border-right: 5px solid #01fea9; }
+  border-left: 5px solid #01fea9; }
   .element-parent.is-active:hover {
     cursor: default; }
 
@@ -6137,14 +6116,6 @@ button.close {
 .dropdown-typeIcon {
   height: 40px;
   width: auto; }
-
-.component .component-header.is-active {
-  margin-top: 54px;
-  margin-bottom: 86px; }
-
-.component .component-body .component-content {
-  margin-top: 40px;
-  background-color: red; }
 
 body {
   background-color: rgba(16, 20, 29, 0.75);
@@ -6168,42 +6139,6 @@ textarea {
 .form-control[disabled] {
   background-color: #466168; }
 
-.saveButton {
-  min-width: 85px;
-  min-height: 36px; }
-
-.search-bar-form .left-inner-addon {
-  position: relative; }
-
-.search-bar-form .left-inner-addon input {
-  padding-left: 30px; }
-
-.search-bar-form .left-inner-addon i {
-  position: absolute;
-  padding: 12px 12px;
-  pointer-events: none; }
-
-.search-bar-form .navbar-search-bar {
-  background-color: #466168;
-  border-radius: 0px;
-  margin-top: 5px;
-  height: 30px;
-  color: #bfffea; }
-
-.search-bar-form input::-webkit-input-placeholder {
-  color: rgba(16, 20, 29, 0.75) !important; }
-
-.search-bar-form input:-moz-placeholder {
-  /* Firefox 18- */
-  color: rgba(16, 20, 29, 0.75) !important; }
-
-.search-bar-form input::-moz-placeholder {
-  /* Firefox 19+ */
-  color: rgba(16, 20, 29, 0.75) !important; }
-
-.search-bar-form input:-ms-input-placeholder {
-  color: rgba(16, 20, 29, 0.75) !important; }
-
 .form .formHeader {
   background-color: rgba(12, 12, 26, 0.96);
   height: 100px; }
@@ -6214,21 +6149,18 @@ textarea {
 
 .formContent {
   margin-top: 50px;
-  padding: 0px;
-  margin-bottom: 100px; }
+  padding: 0px; }
   .formContent .element-bottom {
-    background-color: #01fea9;
-    color: #12121d;
-    height: 40px; }
-    .formContent .element-bottom .add-element-button {
-      cursor: pointer; }
+    background-color: #151B23;
+    padding-top: 5px;
+    padding-bottom: 5px;
+    padding-left: 6px; }
   .formContent .section-bottom {
     background-color: #1b2430;
-    color: #01fea9;
     padding: 10px; }
   .formContent .section {
-    background-color: rgba(12, 12, 26, 0.96);
-    margin-top: 40px; }
+    margin-bottom: 100px;
+    background-color: rgba(12, 12, 26, 0.96); }
   .formContent .section-titleArea {
     padding-top: 10px;
     padding-bottom: 10px;
