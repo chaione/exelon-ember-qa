@@ -13,7 +13,7 @@ define('portal/tests/application/adapter.jshint', ['exports'], function (exports
   QUnit.module('JSHint | application/adapter.js');
   QUnit.test('should pass jshint', function (assert) {
     assert.expect(1);
-    assert.ok(false, 'application/adapter.js should pass jshint.\napplication/adapter.js: line 5, col 14, \'Ember\' is not defined.\napplication/adapter.js: line 10, col 12, \'Ember\' is not defined.\n\n2 errors');
+    assert.ok(false, 'application/adapter.js should pass jshint.\napplication/adapter.js: line 5, col 12, \'Ember\' is not defined.\napplication/adapter.js: line 8, col 12, \'Ember\' is not defined.\n\n2 errors');
   });
 });
 define('portal/tests/application/controller.jshint', ['exports'], function (exports) {
@@ -31,7 +31,7 @@ define('portal/tests/application/serializer.jshint', ['exports'], function (expo
   QUnit.module('JSHint | application/serializer.js');
   QUnit.test('should pass jshint', function (assert) {
     assert.expect(1);
-    assert.ok(false, 'application/serializer.js should pass jshint.\napplication/serializer.js: line 4, col 35, \'method\' is defined but never used.\napplication/serializer.js: line 7, col 12, \'Ember\' is not defined.\n\n2 errors');
+    assert.ok(false, 'application/serializer.js should pass jshint.\napplication/serializer.js: line 4, col 35, \'method\' is defined but never used.\napplication/serializer.js: line 5, col 12, \'Ember\' is not defined.\n\n2 errors');
   });
 });
 define('portal/tests/components/dashboard-locations/component.jshint', ['exports'], function (exports) {
@@ -70,6 +70,15 @@ define('portal/tests/components/dashboard-vendors/component.jshint', ['exports']
     assert.ok(true, 'components/dashboard-vendors/component.js should pass jshint.');
   });
 });
+define('portal/tests/components/element-basic/component.jshint', ['exports'], function (exports) {
+  'use strict';
+
+  QUnit.module('JSHint | components/element-basic/component.js');
+  QUnit.test('should pass jshint', function (assert) {
+    assert.expect(1);
+    assert.ok(true, 'components/element-basic/component.js should pass jshint.');
+  });
+});
 define('portal/tests/components/element-checklist-item/component.jshint', ['exports'], function (exports) {
   'use strict';
 
@@ -79,40 +88,22 @@ define('portal/tests/components/element-checklist-item/component.jshint', ['expo
     assert.ok(true, 'components/element-checklist-item/component.js should pass jshint.');
   });
 });
-define('portal/tests/components/element-date-viewonly/component.jshint', ['exports'], function (exports) {
-  'use strict';
-
-  QUnit.module('JSHint | components/element-date-viewonly/component.js');
-  QUnit.test('should pass jshint', function (assert) {
-    assert.expect(1);
-    assert.ok(true, 'components/element-date-viewonly/component.js should pass jshint.');
-  });
-});
-define('portal/tests/components/element-date/component.jshint', ['exports'], function (exports) {
-  'use strict';
-
-  QUnit.module('JSHint | components/element-date/component.js');
-  QUnit.test('should pass jshint', function (assert) {
-    assert.expect(1);
-    assert.ok(true, 'components/element-date/component.js should pass jshint.');
-  });
-});
 define('portal/tests/components/element-dropdown/component.jshint', ['exports'], function (exports) {
   'use strict';
 
   QUnit.module('JSHint | components/element-dropdown/component.js');
   QUnit.test('should pass jshint', function (assert) {
     assert.expect(1);
-    assert.ok(false, 'components/element-dropdown/component.js should pass jshint.\ncomponents/element-dropdown/component.js: line 32, col 7, Bad line breaking before \'?\'.\n\n1 error');
+    assert.ok(true, 'components/element-dropdown/component.js should pass jshint.');
   });
 });
-define('portal/tests/components/element-free-text/component.jshint', ['exports'], function (exports) {
+define('portal/tests/components/element-form-dropdowns/component.jshint', ['exports'], function (exports) {
   'use strict';
 
-  QUnit.module('JSHint | components/element-free-text/component.js');
+  QUnit.module('JSHint | components/element-form-dropdowns/component.js');
   QUnit.test('should pass jshint', function (assert) {
     assert.expect(1);
-    assert.ok(true, 'components/element-free-text/component.js should pass jshint.');
+    assert.ok(true, 'components/element-form-dropdowns/component.js should pass jshint.');
   });
 });
 define('portal/tests/components/element-label/component.jshint', ['exports'], function (exports) {
@@ -142,60 +133,6 @@ define('portal/tests/components/element-parent/component.jshint', ['exports'], f
     assert.ok(true, 'components/element-parent/component.js should pass jshint.');
   });
 });
-define('portal/tests/components/element-phone/component.jshint', ['exports'], function (exports) {
-  'use strict';
-
-  QUnit.module('JSHint | components/element-phone/component.js');
-  QUnit.test('should pass jshint', function (assert) {
-    assert.expect(1);
-    assert.ok(true, 'components/element-phone/component.js should pass jshint.');
-  });
-});
-define('portal/tests/components/element-qualified/component.jshint', ['exports'], function (exports) {
-  'use strict';
-
-  QUnit.module('JSHint | components/element-qualified/component.js');
-  QUnit.test('should pass jshint', function (assert) {
-    assert.expect(1);
-    assert.ok(true, 'components/element-qualified/component.js should pass jshint.');
-  });
-});
-define('portal/tests/components/element-radial-buttons/component.jshint', ['exports'], function (exports) {
-  'use strict';
-
-  QUnit.module('JSHint | components/element-radial-buttons/component.js');
-  QUnit.test('should pass jshint', function (assert) {
-    assert.expect(1);
-    assert.ok(true, 'components/element-radial-buttons/component.js should pass jshint.');
-  });
-});
-define('portal/tests/components/element-reseal-form/component.jshint', ['exports'], function (exports) {
-  'use strict';
-
-  QUnit.module('JSHint | components/element-reseal-form/component.js');
-  QUnit.test('should pass jshint', function (assert) {
-    assert.expect(1);
-    assert.ok(true, 'components/element-reseal-form/component.js should pass jshint.');
-  });
-});
-define('portal/tests/components/element-scanner-driver-license/component.jshint', ['exports'], function (exports) {
-  'use strict';
-
-  QUnit.module('JSHint | components/element-scanner-driver-license/component.js');
-  QUnit.test('should pass jshint', function (assert) {
-    assert.expect(1);
-    assert.ok(true, 'components/element-scanner-driver-license/component.js should pass jshint.');
-  });
-});
-define('portal/tests/components/element-scanner-license-plate/component.jshint', ['exports'], function (exports) {
-  'use strict';
-
-  QUnit.module('JSHint | components/element-scanner-license-plate/component.js');
-  QUnit.test('should pass jshint', function (assert) {
-    assert.expect(1);
-    assert.ok(true, 'components/element-scanner-license-plate/component.js should pass jshint.');
-  });
-});
 define('portal/tests/components/element-search-step/component.jshint', ['exports'], function (exports) {
   'use strict';
 
@@ -203,24 +140,6 @@ define('portal/tests/components/element-search-step/component.jshint', ['exports
   QUnit.test('should pass jshint', function (assert) {
     assert.expect(1);
     assert.ok(true, 'components/element-search-step/component.js should pass jshint.');
-  });
-});
-define('portal/tests/components/element-text/component.jshint', ['exports'], function (exports) {
-  'use strict';
-
-  QUnit.module('JSHint | components/element-text/component.js');
-  QUnit.test('should pass jshint', function (assert) {
-    assert.expect(1);
-    assert.ok(true, 'components/element-text/component.js should pass jshint.');
-  });
-});
-define('portal/tests/components/element-visual-representations/component.jshint', ['exports'], function (exports) {
-  'use strict';
-
-  QUnit.module('JSHint | components/element-visual-representations/component.js');
-  QUnit.test('should pass jshint', function (assert) {
-    assert.expect(1);
-    assert.ok(true, 'components/element-visual-representations/component.js should pass jshint.');
   });
 });
 define('portal/tests/components/input-label-and-check/component.jshint', ['exports'], function (exports) {
@@ -337,7 +256,7 @@ define('portal/tests/form/controller.jshint', ['exports'], function (exports) {
   QUnit.module('JSHint | form/controller.js');
   QUnit.test('should pass jshint', function (assert) {
     assert.expect(1);
-    assert.ok(false, 'form/controller.js should pass jshint.\nform/controller.js: line 13, col 17, \'form\' is defined but never used.\nform/controller.js: line 14, col 17, \'lastSection\' is defined but never used.\nform/controller.js: line 30, col 17, \'newSection\' is defined but never used.\nform/controller.js: line 40, col 76, Expected \'===\' and instead saw \'==\'.\nform/controller.js: line 51, col 76, Expected \'===\' and instead saw \'==\'.\nform/controller.js: line 60, col 40, Expected \'===\' and instead saw \'==\'.\nform/controller.js: line 133, col 13, \'$\' is not defined.\n\n7 errors');
+    assert.ok(false, 'form/controller.js should pass jshint.\nform/controller.js: line 12, col 15, \'form\' is defined but never used.\nform/controller.js: line 13, col 15, \'lastSection\' is defined but never used.\nform/controller.js: line 23, col 15, \'form\' is defined but never used.\nform/controller.js: line 34, col 17, \'newSection\' is defined but never used.\nform/controller.js: line 46, col 76, Expected \'===\' and instead saw \'==\'.\nform/controller.js: line 57, col 76, Expected \'===\' and instead saw \'==\'.\nform/controller.js: line 65, col 40, Expected \'===\' and instead saw \'==\'.\nform/controller.js: line 143, col 13, \'$\' is not defined.\n\n8 errors');
   });
 });
 define('portal/tests/form/model.jshint', ['exports'], function (exports) {
@@ -355,7 +274,7 @@ define('portal/tests/form/route.jshint', ['exports'], function (exports) {
   QUnit.module('JSHint | form/route.js');
   QUnit.test('should pass jshint', function (assert) {
     assert.expect(1);
-    assert.ok(false, 'form/route.js should pass jshint.\nform/route.js: line 54, col 146, Expected \'===\' and instead saw \'==\'.\n\n1 error');
+    assert.ok(false, 'form/route.js should pass jshint.\nform/route.js: line 51, col 146, Expected \'===\' and instead saw \'==\'.\n\n1 error');
   });
 });
 define('portal/tests/forms/controller.jshint', ['exports'], function (exports) {
@@ -373,7 +292,7 @@ define('portal/tests/forms/route.jshint', ['exports'], function (exports) {
   QUnit.module('JSHint | forms/route.js');
   QUnit.test('should pass jshint', function (assert) {
     assert.expect(1);
-    assert.ok(false, 'forms/route.js should pass jshint.\nforms/route.js: line 33, col 33, \'transition\' is defined but never used.\n\n1 error');
+    assert.ok(false, 'forms/route.js should pass jshint.\nforms/route.js: line 28, col 30, \'transition\' is defined but never used.\n\n1 error');
   });
 });
 define('portal/tests/helpers/boolean-checker.jshint', ['exports'], function (exports) {
@@ -450,13 +369,15 @@ define('portal/tests/helpers/ember-power-select', ['exports', 'ember'], function
   exports.triggerKeydown = triggerKeydown;
   exports.typeInSearch = typeInSearch;
   exports.clickTrigger = clickTrigger;
+  exports.nativeTouch = nativeTouch;
+  exports.touchTrigger = touchTrigger;
 
   // Helpers for integration tests
 
   function typeText(selector, text) {
-    var $selector = $(selector);
+    var $selector = $($(selector).get(0)); // Only interact with the first result
     $selector.val(text);
-    var event = document.createEvent("Events");
+    var event = document.createEvent('Events');
     event.initEvent('input', true, true);
     $selector[0].dispatchEvent(event);
   }
@@ -488,7 +409,7 @@ define('portal/tests/helpers/ember-power-select', ['exports', 'ember'], function
   }
 
   function triggerKeydown(domElement, k) {
-    var oEvent = document.createEvent("Events");
+    var oEvent = document.createEvent('Events');
     oEvent.initEvent('keydown', true, true);
     $.extend(oEvent, {
       view: window,
@@ -506,7 +427,7 @@ define('portal/tests/helpers/ember-power-select', ['exports', 'ember'], function
 
   function typeInSearch(text) {
     _ember['default'].run(function () {
-      typeText('.ember-power-select-search input, .ember-power-select-trigger-multiple-input', text);
+      typeText('.ember-power-select-search-input, .ember-power-select-search input, .ember-power-select-trigger-multiple-input, input[type="search"]', text);
     });
   }
 
@@ -520,13 +441,37 @@ define('portal/tests/helpers/ember-power-select', ['exports', 'ember'], function
     nativeMouseDown(selector, options);
   }
 
+  function nativeTouch(selectorOrDomElement) {
+    var event = new window.Event('touchstart', { bubbles: true, cancelable: true, view: window });
+    var target = undefined;
+
+    if (typeof selectorOrDomElement === 'string') {
+      target = _ember['default'].$(selectorOrDomElement)[0];
+    } else {
+      target = selectorOrDomElement;
+    }
+    _ember['default'].run(function () {
+      return target.dispatchEvent(event);
+    });
+    _ember['default'].run(function () {
+      event = new window.Event('touchend', { bubbles: true, cancelable: true, view: window });
+      target.dispatchEvent(event);
+    });
+  }
+
+  function touchTrigger() {
+    var selector = '.ember-power-select-trigger';
+    nativeTouch(selector);
+  }
+
   // Helpers for acceptance tests
 
   exports['default'] = function () {
     var isEmberOne = _ember['default'].VERSION.match(/1\.13/);
 
     _ember['default'].Test.registerAsyncHelper('selectChoose', function (app, cssPath, value) {
-      var id = find(cssPath).find('.ember-power-select-trigger').attr('id').match(/ember-power-select-trigger-ember(\d+)/)[1];
+      var match = find(cssPath).find('.ember-power-select-trigger').attr('id').match(/\d+$/);
+      var id = match[0];
       // If the dropdown is closed, open it
       if (_ember['default'].$('.ember-power-select-dropdown-ember' + id).length === 0) {
         nativeMouseDown(cssPath + ' .ember-power-select-trigger');
@@ -549,7 +494,7 @@ define('portal/tests/helpers/ember-power-select', ['exports', 'ember'], function
     });
 
     _ember['default'].Test.registerAsyncHelper('selectSearch', function (app, cssPath, value) {
-      var id = find(cssPath).find('.ember-power-select-trigger').attr('id').match(/ember-power-select-trigger-ember(\d+)/)[1];
+      var id = find(cssPath).find('.ember-power-select-trigger').attr('id').replace(/\D/g, '');
       var isMultipleSelect = _ember['default'].$(cssPath + ' .ember-power-select-trigger-multiple-input').length > 0;
 
       var dropdownIsClosed = _ember['default'].$('.ember-power-select-dropdown-ember' + id).length === 0;
@@ -557,24 +502,40 @@ define('portal/tests/helpers/ember-power-select', ['exports', 'ember'], function
         nativeMouseDown(cssPath + ' .ember-power-select-trigger');
         wait();
       }
+      var isDefaultSingleSelect = _ember['default'].$('.ember-power-select-search-input').length > 0;
 
       if (isMultipleSelect) {
         fillIn(cssPath + ' .ember-power-select-trigger-multiple-input', value);
         if (isEmberOne) {
           triggerEvent(cssPath + ' .ember-power-select-trigger-multiple-input', 'input');
         }
-      } else {
-        fillIn('.ember-power-select-search input', value);
+      } else if (isDefaultSingleSelect) {
+        fillIn('.ember-power-select-search-input', value);
         if (isEmberOne) {
-          triggerEvent('.ember-power-select-dropdown-ember' + id + ' .ember-power-select-search input', 'input');
+          triggerEvent('.ember-power-select-dropdown-ember' + id + ' .ember-power-select-search-input', 'input');
+        }
+      } else {
+        // It's probably a customized version
+        var inputIsInTrigger = !!find(cssPath + ' .ember-power-select-trigger input[type=search]')[0];
+        if (inputIsInTrigger) {
+          fillIn(cssPath + ' .ember-power-select-trigger input[type=search]', value);
+          if (isEmberOne) {
+            triggerEvent(cssPath + ' .ember-power-select-trigger input[type=search]', 'input');
+          }
+        } else {
+          fillIn('.ember-power-select-dropdown-ember' + id + ' .ember-power-select-search-input[type=search]', 'input');
+          if (isEmberOne) {
+            triggerEvent('.ember-power-select-dropdown-ember' + id + ' .ember-power-select-search-input[type=search]', 'input');
+          }
         }
       }
     });
 
     _ember['default'].Test.registerAsyncHelper('removeMultipleOption', function (app, cssPath, value) {
-      var elem = find(cssPath + ' .ember-power-select-multiple-options > li:contains(' + value + ') > .ember-power-select-multiple-remove-btn')[0];
+      var elem = find(cssPath + ' .ember-power-select-multiple-options > li:contains(' + value + ') > .ember-power-select-multiple-remove-btn').get(0);
       try {
         nativeMouseDown(elem);
+        wait();
       } catch (e) {
         console.warn('css path to remove btn not found');
         throw e;
@@ -582,9 +543,10 @@ define('portal/tests/helpers/ember-power-select', ['exports', 'ember'], function
     });
 
     _ember['default'].Test.registerAsyncHelper('clearSelected', function (app, cssPath) {
-      var elem = find(cssPath + ' .ember-power-select-clear-btn')[0];
+      var elem = find(cssPath + ' .ember-power-select-clear-btn').get(0);
       try {
         nativeMouseDown(elem);
+        wait();
       } catch (e) {
         console.warn('css path to clear btn not found');
         throw e;
@@ -640,6 +602,15 @@ define('portal/tests/helpers/eq.jshint', ['exports'], function (exports) {
   QUnit.test('should pass jshint', function (assert) {
     assert.expect(1);
     assert.ok(true, 'helpers/eq.js should pass jshint.');
+  });
+});
+define('portal/tests/helpers/form-app-names.jshint', ['exports'], function (exports) {
+  'use strict';
+
+  QUnit.module('JSHint | helpers/form-app-names.js');
+  QUnit.test('should pass jshint', function (assert) {
+    assert.expect(1);
+    assert.ok(true, 'helpers/form-app-names.js should pass jshint.');
   });
 });
 define('portal/tests/helpers/logger.jshint', ['exports'], function (exports) {
@@ -1326,6 +1297,155 @@ define('portal/tests/integration/components/dashboard-vendor/component-test.jshi
     assert.ok(true, 'integration/components/dashboard-vendor/component-test.js should pass jshint.');
   });
 });
+define('portal/tests/integration/components/element-basic/component-test', ['exports', 'ember-qunit'], function (exports, _emberQunit) {
+
+  (0, _emberQunit.moduleForComponent)('element-basic', 'Integration | Component | element basic', {
+    integration: true
+  });
+
+  (0, _emberQunit.test)('it renders', function (assert) {
+    // Set any properties with this.set('myProperty', 'value');
+    // Handle any actions with this.on('myAction', function(val) { ... });
+
+    this.render(Ember.HTMLBars.template((function () {
+      return {
+        meta: {
+          'fragmentReason': {
+            'name': 'missing-wrapper',
+            'problems': ['wrong-type']
+          },
+          'revision': 'Ember@2.5.1',
+          'loc': {
+            'source': null,
+            'start': {
+              'line': 1,
+              'column': 0
+            },
+            'end': {
+              'line': 1,
+              'column': 17
+            }
+          }
+        },
+        isEmpty: false,
+        arity: 0,
+        cachedFragment: null,
+        hasRendered: false,
+        buildFragment: function buildFragment(dom) {
+          var el0 = dom.createDocumentFragment();
+          var el1 = dom.createComment('');
+          dom.appendChild(el0, el1);
+          return el0;
+        },
+        buildRenderNodes: function buildRenderNodes(dom, fragment, contextualElement) {
+          var morphs = new Array(1);
+          morphs[0] = dom.createMorphAt(fragment, 0, 0, contextualElement);
+          dom.insertBoundary(fragment, 0);
+          dom.insertBoundary(fragment, null);
+          return morphs;
+        },
+        statements: [['content', 'element-basic', ['loc', [null, [1, 0], [1, 17]]]]],
+        locals: [],
+        templates: []
+      };
+    })()));
+
+    assert.equal(this.$().text().trim(), '');
+
+    // Template block usage:
+    this.render(Ember.HTMLBars.template((function () {
+      var child0 = (function () {
+        return {
+          meta: {
+            'fragmentReason': false,
+            'revision': 'Ember@2.5.1',
+            'loc': {
+              'source': null,
+              'start': {
+                'line': 2,
+                'column': 4
+              },
+              'end': {
+                'line': 4,
+                'column': 4
+              }
+            }
+          },
+          isEmpty: false,
+          arity: 0,
+          cachedFragment: null,
+          hasRendered: false,
+          buildFragment: function buildFragment(dom) {
+            var el0 = dom.createDocumentFragment();
+            var el1 = dom.createTextNode('      template block text\n');
+            dom.appendChild(el0, el1);
+            return el0;
+          },
+          buildRenderNodes: function buildRenderNodes() {
+            return [];
+          },
+          statements: [],
+          locals: [],
+          templates: []
+        };
+      })();
+
+      return {
+        meta: {
+          'fragmentReason': {
+            'name': 'missing-wrapper',
+            'problems': ['wrong-type']
+          },
+          'revision': 'Ember@2.5.1',
+          'loc': {
+            'source': null,
+            'start': {
+              'line': 1,
+              'column': 0
+            },
+            'end': {
+              'line': 5,
+              'column': 2
+            }
+          }
+        },
+        isEmpty: false,
+        arity: 0,
+        cachedFragment: null,
+        hasRendered: false,
+        buildFragment: function buildFragment(dom) {
+          var el0 = dom.createDocumentFragment();
+          var el1 = dom.createTextNode('\n');
+          dom.appendChild(el0, el1);
+          var el1 = dom.createComment('');
+          dom.appendChild(el0, el1);
+          var el1 = dom.createTextNode('  ');
+          dom.appendChild(el0, el1);
+          return el0;
+        },
+        buildRenderNodes: function buildRenderNodes(dom, fragment, contextualElement) {
+          var morphs = new Array(1);
+          morphs[0] = dom.createMorphAt(fragment, 1, 1, contextualElement);
+          return morphs;
+        },
+        statements: [['block', 'element-basic', [], [], 0, null, ['loc', [null, [2, 4], [4, 22]]]]],
+        locals: [],
+        templates: [child0]
+      };
+    })()));
+
+    assert.equal(this.$().text().trim(), 'template block text');
+  });
+});
+define('portal/tests/integration/components/element-basic/component-test.jshint', ['exports'], function (exports) {
+  'use strict';
+
+  QUnit.module('JSHint | integration/components/element-basic/component-test.js');
+  QUnit.test('should pass jshint', function (assert) {
+    assert.expect(1);
+    assert.ok(true, 'integration/components/element-basic/component-test.js should pass jshint.');
+  });
+});
 define('portal/tests/integration/components/element-checklist-item/component-test', ['exports', 'ember-qunit'], function (exports, _emberQunit) {
 
   (0, _emberQunit.moduleForComponent)('element-checklist-item', 'Integration | Component | element checklist item', {
@@ -1920,6 +2040,155 @@ define('portal/tests/integration/components/element-dropdown/component-test.jshi
   QUnit.test('should pass jshint', function (assert) {
     assert.expect(1);
     assert.ok(true, 'integration/components/element-dropdown/component-test.js should pass jshint.');
+  });
+});
+define('portal/tests/integration/components/element-form-dropdowns/component-test', ['exports', 'ember-qunit'], function (exports, _emberQunit) {
+
+  (0, _emberQunit.moduleForComponent)('element-form-dropdowns', 'Integration | Component | element form dropdowns', {
+    integration: true
+  });
+
+  (0, _emberQunit.test)('it renders', function (assert) {
+    // Set any properties with this.set('myProperty', 'value');
+    // Handle any actions with this.on('myAction', function(val) { ... });
+
+    this.render(Ember.HTMLBars.template((function () {
+      return {
+        meta: {
+          'fragmentReason': {
+            'name': 'missing-wrapper',
+            'problems': ['wrong-type']
+          },
+          'revision': 'Ember@2.5.1',
+          'loc': {
+            'source': null,
+            'start': {
+              'line': 1,
+              'column': 0
+            },
+            'end': {
+              'line': 1,
+              'column': 26
+            }
+          }
+        },
+        isEmpty: false,
+        arity: 0,
+        cachedFragment: null,
+        hasRendered: false,
+        buildFragment: function buildFragment(dom) {
+          var el0 = dom.createDocumentFragment();
+          var el1 = dom.createComment('');
+          dom.appendChild(el0, el1);
+          return el0;
+        },
+        buildRenderNodes: function buildRenderNodes(dom, fragment, contextualElement) {
+          var morphs = new Array(1);
+          morphs[0] = dom.createMorphAt(fragment, 0, 0, contextualElement);
+          dom.insertBoundary(fragment, 0);
+          dom.insertBoundary(fragment, null);
+          return morphs;
+        },
+        statements: [['content', 'element-form-dropdowns', ['loc', [null, [1, 0], [1, 26]]]]],
+        locals: [],
+        templates: []
+      };
+    })()));
+
+    assert.equal(this.$().text().trim(), '');
+
+    // Template block usage:
+    this.render(Ember.HTMLBars.template((function () {
+      var child0 = (function () {
+        return {
+          meta: {
+            'fragmentReason': false,
+            'revision': 'Ember@2.5.1',
+            'loc': {
+              'source': null,
+              'start': {
+                'line': 2,
+                'column': 4
+              },
+              'end': {
+                'line': 4,
+                'column': 4
+              }
+            }
+          },
+          isEmpty: false,
+          arity: 0,
+          cachedFragment: null,
+          hasRendered: false,
+          buildFragment: function buildFragment(dom) {
+            var el0 = dom.createDocumentFragment();
+            var el1 = dom.createTextNode('      template block text\n');
+            dom.appendChild(el0, el1);
+            return el0;
+          },
+          buildRenderNodes: function buildRenderNodes() {
+            return [];
+          },
+          statements: [],
+          locals: [],
+          templates: []
+        };
+      })();
+
+      return {
+        meta: {
+          'fragmentReason': {
+            'name': 'missing-wrapper',
+            'problems': ['wrong-type']
+          },
+          'revision': 'Ember@2.5.1',
+          'loc': {
+            'source': null,
+            'start': {
+              'line': 1,
+              'column': 0
+            },
+            'end': {
+              'line': 5,
+              'column': 2
+            }
+          }
+        },
+        isEmpty: false,
+        arity: 0,
+        cachedFragment: null,
+        hasRendered: false,
+        buildFragment: function buildFragment(dom) {
+          var el0 = dom.createDocumentFragment();
+          var el1 = dom.createTextNode('\n');
+          dom.appendChild(el0, el1);
+          var el1 = dom.createComment('');
+          dom.appendChild(el0, el1);
+          var el1 = dom.createTextNode('  ');
+          dom.appendChild(el0, el1);
+          return el0;
+        },
+        buildRenderNodes: function buildRenderNodes(dom, fragment, contextualElement) {
+          var morphs = new Array(1);
+          morphs[0] = dom.createMorphAt(fragment, 1, 1, contextualElement);
+          return morphs;
+        },
+        statements: [['block', 'element-form-dropdowns', [], [], 0, null, ['loc', [null, [2, 4], [4, 31]]]]],
+        locals: [],
+        templates: [child0]
+      };
+    })()));
+
+    assert.equal(this.$().text().trim(), 'template block text');
+  });
+});
+define('portal/tests/integration/components/element-form-dropdowns/component-test.jshint', ['exports'], function (exports) {
+  'use strict';
+
+  QUnit.module('JSHint | integration/components/element-form-dropdowns/component-test.js');
+  QUnit.test('should pass jshint', function (assert) {
+    assert.expect(1);
+    assert.ok(true, 'integration/components/element-form-dropdowns/component-test.js should pass jshint.');
   });
 });
 define('portal/tests/integration/components/element-label/component-test', ['exports', 'ember-qunit'], function (exports, _emberQunit) {
@@ -3710,6 +3979,155 @@ define('portal/tests/integration/components/element-visual-representations/compo
     assert.ok(true, 'integration/components/element-visual-representations/component-test.js should pass jshint.');
   });
 });
+define('portal/tests/integration/components/element-with-placeholder/component-test', ['exports', 'ember-qunit'], function (exports, _emberQunit) {
+
+  (0, _emberQunit.moduleForComponent)('element-with-placeholder', 'Integration | Component | element with placeholder', {
+    integration: true
+  });
+
+  (0, _emberQunit.test)('it renders', function (assert) {
+    // Set any properties with this.set('myProperty', 'value');
+    // Handle any actions with this.on('myAction', function(val) { ... });
+
+    this.render(Ember.HTMLBars.template((function () {
+      return {
+        meta: {
+          'fragmentReason': {
+            'name': 'missing-wrapper',
+            'problems': ['wrong-type']
+          },
+          'revision': 'Ember@2.5.1',
+          'loc': {
+            'source': null,
+            'start': {
+              'line': 1,
+              'column': 0
+            },
+            'end': {
+              'line': 1,
+              'column': 28
+            }
+          }
+        },
+        isEmpty: false,
+        arity: 0,
+        cachedFragment: null,
+        hasRendered: false,
+        buildFragment: function buildFragment(dom) {
+          var el0 = dom.createDocumentFragment();
+          var el1 = dom.createComment('');
+          dom.appendChild(el0, el1);
+          return el0;
+        },
+        buildRenderNodes: function buildRenderNodes(dom, fragment, contextualElement) {
+          var morphs = new Array(1);
+          morphs[0] = dom.createMorphAt(fragment, 0, 0, contextualElement);
+          dom.insertBoundary(fragment, 0);
+          dom.insertBoundary(fragment, null);
+          return morphs;
+        },
+        statements: [['content', 'element-with-placeholder', ['loc', [null, [1, 0], [1, 28]]]]],
+        locals: [],
+        templates: []
+      };
+    })()));
+
+    assert.equal(this.$().text().trim(), '');
+
+    // Template block usage:
+    this.render(Ember.HTMLBars.template((function () {
+      var child0 = (function () {
+        return {
+          meta: {
+            'fragmentReason': false,
+            'revision': 'Ember@2.5.1',
+            'loc': {
+              'source': null,
+              'start': {
+                'line': 2,
+                'column': 4
+              },
+              'end': {
+                'line': 4,
+                'column': 4
+              }
+            }
+          },
+          isEmpty: false,
+          arity: 0,
+          cachedFragment: null,
+          hasRendered: false,
+          buildFragment: function buildFragment(dom) {
+            var el0 = dom.createDocumentFragment();
+            var el1 = dom.createTextNode('      template block text\n');
+            dom.appendChild(el0, el1);
+            return el0;
+          },
+          buildRenderNodes: function buildRenderNodes() {
+            return [];
+          },
+          statements: [],
+          locals: [],
+          templates: []
+        };
+      })();
+
+      return {
+        meta: {
+          'fragmentReason': {
+            'name': 'missing-wrapper',
+            'problems': ['wrong-type']
+          },
+          'revision': 'Ember@2.5.1',
+          'loc': {
+            'source': null,
+            'start': {
+              'line': 1,
+              'column': 0
+            },
+            'end': {
+              'line': 5,
+              'column': 2
+            }
+          }
+        },
+        isEmpty: false,
+        arity: 0,
+        cachedFragment: null,
+        hasRendered: false,
+        buildFragment: function buildFragment(dom) {
+          var el0 = dom.createDocumentFragment();
+          var el1 = dom.createTextNode('\n');
+          dom.appendChild(el0, el1);
+          var el1 = dom.createComment('');
+          dom.appendChild(el0, el1);
+          var el1 = dom.createTextNode('  ');
+          dom.appendChild(el0, el1);
+          return el0;
+        },
+        buildRenderNodes: function buildRenderNodes(dom, fragment, contextualElement) {
+          var morphs = new Array(1);
+          morphs[0] = dom.createMorphAt(fragment, 1, 1, contextualElement);
+          return morphs;
+        },
+        statements: [['block', 'element-with-placeholder', [], [], 0, null, ['loc', [null, [2, 4], [4, 33]]]]],
+        locals: [],
+        templates: [child0]
+      };
+    })()));
+
+    assert.equal(this.$().text().trim(), 'template block text');
+  });
+});
+define('portal/tests/integration/components/element-with-placeholder/component-test.jshint', ['exports'], function (exports) {
+  'use strict';
+
+  QUnit.module('JSHint | integration/components/element-with-placeholder/component-test.js');
+  QUnit.test('should pass jshint', function (assert) {
+    assert.expect(1);
+    assert.ok(true, 'integration/components/element-with-placeholder/component-test.js should pass jshint.');
+  });
+});
 define('portal/tests/integration/components/input-label-and-check/component-test', ['exports', 'ember-qunit'], function (exports, _emberQunit) {
 
   (0, _emberQunit.moduleForComponent)('input-label-and-check', 'Integration | Component | input label and check', {
@@ -4359,6 +4777,25 @@ define('portal/tests/unit/helpers/eq-test.jshint', ['exports'], function (export
   QUnit.test('should pass jshint', function (assert) {
     assert.expect(1);
     assert.ok(true, 'unit/helpers/eq-test.js should pass jshint.');
+  });
+});
+define('portal/tests/unit/helpers/form-app-names-test', ['exports', 'portal/helpers/form-app-names', 'qunit'], function (exports, _portalHelpersFormAppNames, _qunit) {
+
+  (0, _qunit.module)('Unit | Helper | form app names');
+
+  // Replace this with your real tests.
+  (0, _qunit.test)('it works', function (assert) {
+    var result = (0, _portalHelpersFormAppNames.formAppNames)([42]);
+    assert.ok(result);
+  });
+});
+define('portal/tests/unit/helpers/form-app-names-test.jshint', ['exports'], function (exports) {
+  'use strict';
+
+  QUnit.module('JSHint | unit/helpers/form-app-names-test.js');
+  QUnit.test('should pass jshint', function (assert) {
+    assert.expect(1);
+    assert.ok(true, 'unit/helpers/form-app-names-test.js should pass jshint.');
   });
 });
 define('portal/tests/unit/location/model-test', ['exports', 'ember-qunit'], function (exports, _emberQunit) {
