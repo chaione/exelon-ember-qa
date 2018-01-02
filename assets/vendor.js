@@ -86634,6 +86634,657 @@ define("ember-data/version", ["exports"], function (exports) {
 
   exports["default"] = "2.5.2";
 });
+define('ember-drag-drop/components/draggable-object-target', ['exports', 'ember', 'ember-drag-drop/mixins/droppable'], function (exports, _ember, _emberDragDropMixinsDroppable) {
+  'use strict';
+
+  exports['default'] = _ember['default'].Component.extend(_emberDragDropMixinsDroppable['default'], {
+    classNameBindings: ['overrideClass'],
+    overrideClass: 'draggable-object-target',
+    isOver: false,
+
+    handlePayload: function handlePayload(payload, event) {
+      var obj = this.get('coordinator').getObject(payload, { target: this });
+      this.sendAction('action', obj, { target: this, event: event });
+    },
+
+    handleDrop: function handleDrop(event) {
+      var dataTransfer = event.dataTransfer;
+      var payload = dataTransfer.getData("Text");
+      if (payload === '') {
+        return;
+      }
+      this.handlePayload(payload, event);
+    },
+
+    acceptDrop: function acceptDrop(event) {
+      this.handleDrop(event);
+      //Firefox is navigating to a url on drop sometimes, this prevents that from happening
+      event.preventDefault();
+    },
+
+    handleDragOver: function handleDragOver(event) {
+      if (!this.get('isOver')) {
+        //only send once per hover event
+        this.set('isOver', true);
+        this.sendAction('dragOverAction', event);
+      }
+    },
+
+    handleDragOut: function handleDragOut(event) {
+      this.set('isOver', false);
+      this.sendAction('dragOutAction', event);
+    },
+
+    click: function click(e) {
+      var onClick = this.get('onClick');
+      if (onClick) {
+        onClick(e.originalEvent);
+      }
+    },
+
+    mouseDown: function mouseDown(e) {
+      var mouseDown = this.get('onMouseDown');
+      if (mouseDown) {
+        mouseDown(e.originalEvent);
+      }
+    },
+
+    mouseEnter: function mouseEnter(e) {
+      var mouseEnter = this.get('onMouseEnter');
+      if (mouseEnter) {
+        mouseEnter(e.originalEvent);
+      }
+    },
+
+    actions: {
+      acceptForDrop: function acceptForDrop() {
+        var hashId = this.get('coordinator.clickedId');
+        this.handlePayload(hashId);
+      }
+    }
+  });
+});
+define('ember-drag-drop/components/draggable-object', ['exports', 'ember'], function (exports, _ember) {
+  'use strict';
+
+  exports['default'] = _ember['default'].Component.extend({
+    dragCoordinator: _ember['default'].inject.service(),
+    overrideClass: 'draggable-object',
+    classNameBindings: [':js-draggableObject', 'isDraggingObject:is-dragging-object:', 'overrideClass'],
+    attributeBindings: ['dragReady:draggable'],
+    isDraggable: true,
+    dragReady: true,
+    isSortable: false,
+    sortingScope: 'drag-objects',
+    title: _ember['default'].computed.alias('content.title'),
+
+    draggable: _ember['default'].computed('isDraggable', function () {
+      var isDraggable = this.get('isDraggable');
+
+      return isDraggable || null;
+    }),
+
+    init: function init() {
+      if (this.get('dragHandle')) {
+        this.set('dragReady', false);
+      }
+      this._super.apply(this, arguments);
+    },
+
+    didInsertElement: function didInsertElement() {
+      var _this = this;
+
+      _ember['default'].run.scheduleOnce('afterRender', function () {
+        //if there is a drag handle watch the mouse up and down events to trigger if drag is allowed
+        var dragHandle = _this.get('dragHandle');
+        if (dragHandle) {
+          //only start when drag handle is activated
+          if (_this.$(dragHandle)) {
+            _this.$(dragHandle).on('mouseover', function () {
+              _this.set('dragReady', true);
+            });
+            _this.$(dragHandle).on('mouseout', function () {
+              _this.set('dragReady', false);
+            });
+          }
+        }
+      });
+    },
+
+    willDestroyElement: function willDestroyElement() {
+      var dragHandle = this.get('dragHandle');
+      if (this.$(dragHandle)) {
+        this.$(dragHandle).off();
+      }
+    },
+
+    dragStart: function dragStart(event) {
+      var _this2 = this;
+
+      if (!this.get('isDraggable') || !this.get('dragReady')) {
+        event.preventDefault();
+        return;
+      }
+
+      var dataTransfer = event.dataTransfer;
+
+      var obj = this.get('content');
+      var id = null;
+      var coordinator = this.get('coordinator');
+      if (coordinator) {
+        id = coordinator.setObject(obj, { source: this });
+      }
+
+      dataTransfer.setData('Text', id);
+
+      if (obj && typeof obj === 'object') {
+        _ember['default'].set(obj, 'isDraggingObject', true);
+      }
+      this.set('isDraggingObject', true);
+      if (!this.get('dragCoordinator.enableSort') && this.get('dragCoordinator.sortComponentController')) {
+        //disable drag if sorting is disabled this is not used for regular
+        event.preventDefault();
+        return;
+      } else {
+        _ember['default'].run.next(function () {
+          _this2.dragStartHook(event);
+        });
+        this.get('dragCoordinator').dragStarted(obj, event, this);
+      }
+      this.sendAction('dragStartAction', obj, event);
+      if (this.get('isSortable')) {
+        this.sendAction('draggingSortItem', obj, event);
+      }
+    },
+
+    dragEnd: function dragEnd(event) {
+      if (!this.get('isDraggingObject')) {
+        return;
+      }
+
+      var obj = this.get('content');
+
+      if (obj && typeof obj === 'object') {
+        _ember['default'].set(obj, 'isDraggingObject', false);
+      }
+      this.set('isDraggingObject', false);
+      this.dragEndHook(event);
+      this.get('dragCoordinator').dragEnded();
+      this.sendAction('dragEndAction', obj, event);
+      if (this.get('dragHandle')) {
+        this.set('dragReady', false);
+      }
+    },
+
+    drag: function drag(event) {
+      this.sendAction('dragMoveAction', event);
+    },
+
+    dragOver: function dragOver(event) {
+      if (this.get('isSortable')) {
+        this.get('dragCoordinator').draggingOver(event, this);
+      }
+      return false;
+    },
+
+    dragStartHook: function dragStartHook(event) {
+      _ember['default'].$(event.target).css('opacity', '0.5');
+    },
+
+    dragEndHook: function dragEndHook(event) {
+      _ember['default'].$(event.target).css('opacity', '1');
+    },
+
+    drop: function drop(event) {
+      //Firefox is navigating to a url on drop, this prevents that from happening
+      event.preventDefault();
+    },
+
+    actions: {
+      selectForDrag: function selectForDrag() {
+        var obj = this.get('content');
+        var hashId = this.get('coordinator').setObject(obj, { source: this });
+        this.set('coordinator.clickedId', hashId);
+      }
+    }
+  });
+});
+define('ember-drag-drop/components/object-bin', ['exports', 'ember'], function (exports, _ember) {
+  'use strict';
+
+  function removeOne(arr, obj) {
+    var l = arr.get('length');
+    arr.removeObject(obj);
+    var l2 = arr.get('length');
+
+    if (l - 1 !== l2) {
+      throw "bad length " + l + " " + l2;
+    }
+  }
+
+  exports['default'] = _ember['default'].Component.extend({
+    model: _ember['default'].A(),
+    classNames: ['draggable-object-bin'],
+
+    manageList: true,
+
+    objectMoved: function objectMoved() {},
+
+    actions: {
+      handleObjectDropped: function handleObjectDropped(obj) {
+        if (this.get('manageList')) {
+          this.get("model").pushObject(obj);
+        }
+
+        this.trigger("objectDroppedInternal", obj);
+        this.sendAction("objectDropped", { obj: obj, bin: this });
+      },
+
+      handleObjectDragged: function handleObjectDragged(obj) {
+        if (this.get('manageList')) {
+          removeOne(this.get('model'), obj);
+        }
+        this.trigger("objectDraggedInternal", obj);
+        this.sendAction("objectDragged");
+      }
+    }
+  });
+});
+define('ember-drag-drop/components/sortable-objects', ['exports', 'ember'], function (exports, _ember) {
+  'use strict';
+
+  exports['default'] = _ember['default'].Component.extend({
+    dragCoordinator: _ember['default'].inject.service(),
+    overrideClass: 'sortable-objects',
+    classNameBindings: ['overrideClass'],
+    enableSort: true,
+    useSwap: true,
+    inPlace: false,
+    sortingScope: 'drag-objects',
+    sortableObjectList: _ember['default'].A(),
+
+    init: function init() {
+      this._super.apply(this, arguments);
+      if (this.get('enableSort')) {
+        this.get('dragCoordinator').pushSortComponent(this);
+      }
+    },
+
+    willDestroyElement: function willDestroyElement() {
+      if (this.get('enableSort')) {
+        this.get('dragCoordinator').removeSortComponent(this);
+      }
+    },
+
+    dragStart: function dragStart(event) {
+      event.stopPropagation();
+      if (!this.get('enableSort')) {
+        return false;
+      }
+      this.set('dragCoordinator.sortComponentController', this);
+    },
+
+    dragEnter: function dragEnter(event) {
+      //needed so drop event will fire
+      event.stopPropagation();
+      return false;
+    },
+
+    dragOver: function dragOver(event) {
+      //needed so drop event will fire
+      event.stopPropagation();
+      return false;
+    },
+
+    drop: function drop(event) {
+      event.stopPropagation();
+      if (this.get('enableSort')) {
+        this.sendAction('sortEndAction', event);
+      }
+    }
+  });
+});
+define('ember-drag-drop/mixins/droppable', ['exports', 'ember'], function (exports, _ember) {
+  'use strict';
+
+  /**
+   * Wraps the native drop events to make your components droppable.
+   *
+   * @mixin Droppable
+   */
+
+  var Droppable = _ember['default'].Mixin.create({
+    _currentDrag: null,
+    classNameBindings: ['accepts-drag', 'self-drop'],
+
+    /**
+     * Read-only className property that is set to true when the component is
+     * receiving a valid drag event. You can style your element with
+     * `.accepts-drag`.
+     *
+     * @property accepts-drag
+     * @private
+     */
+
+    'accepts-drag': false,
+
+    /**
+     * Will be true when the component is dragged over itself. Can use
+     * `.self-drop` in your css to style (or more common, unstyle) the component.
+     *
+     * @property self-drop
+     * @private
+     */
+
+    'self-drop': false,
+
+    /**
+      * Validates drag events. Override this to restrict which data types your
+      * component accepts.
+      *
+      * Example:
+      *
+      * ```js
+      * validateDragEvent(event) {
+      *   return event.dataTransfer.types.contains('text/x-foo');
+      * }
+      * ```
+      *
+      * @method validateDragEvent
+      * @public
+      */
+
+    validateDragEvent: function validateDragEvent() {
+      return true;
+    },
+
+    /**
+     * Called when a valid drag event is dropped on the component. Override to
+     * actually make something happen.
+     *
+     * ```js
+     * acceptDrop: function(event) {
+     *   var data = event.dataTransfer.getData('text/plain');
+     *   doSomethingWith(data);
+     * }
+     * ```
+     *
+     * @method acceptDrop
+     * @public
+     */
+
+    acceptDrop: function acceptDrop() {},
+
+    handleDragOver: function handleDragOver() {},
+    handleDragOut: function handleDragOut() {},
+
+    /**
+     * @method dragOver
+     * @private
+     */
+
+    dragOver: function dragOver(event) {
+      if (this._droppableIsDraggable(event)) {
+        this.set('self-drop', true);
+      }
+      if (this.get('accepts-drag')) {
+        return this._allowDrop(event);
+      }
+      if (this.validateDragEvent(event)) {
+        this.set('accepts-drag', true);
+        this._allowDrop(event);
+      } else {
+        this._resetDroppability();
+      }
+    },
+
+    /**
+     * @method dragEnter
+     * @private
+     */
+
+    dragEnter: function dragEnter() {
+      return false;
+    },
+
+    /**
+     * @method drop
+     * @private
+     */
+
+    drop: function drop(event) {
+      // have to validate on drop because you may have nested sortables the
+      // parent allows the drop but the child receives it, revalidating allows
+      // the event to bubble up to the parent to handle it
+      if (!this.validateDragEvent(event)) {
+        return;
+      }
+      this.acceptDrop(event);
+      this._resetDroppability();
+      // TODO: might not need this? I can't remember why its here
+      event.stopPropagation();
+      return false;
+    },
+
+    /**
+     * Tells the browser we have an acceptable drag event.
+     *
+     * @method _allowDrop
+     * @private
+     */
+
+    _allowDrop: function _allowDrop(event) {
+      this.handleDragOver(event);
+      event.stopPropagation();
+      event.preventDefault();
+      return false;
+    },
+
+    /**
+     * We want to be able to know if the current drop target is the original
+     * element being dragged or a child of it.
+     *
+     * @method _droppableIsDraggable
+     * @private
+     */
+
+    _droppableIsDraggable: function _droppableIsDraggable(event) {
+      return Droppable._currentDrag && (Droppable._currentDrag === event.target || Droppable._currentDrag.contains(event.target));
+    },
+
+    /**
+     * @method _resetDroppability
+     * @private
+     */
+
+    _resetDroppability: function _resetDroppability(event) {
+      this.handleDragOut(event);
+      this.set('accepts-drag', false);
+      this.set('self-drop', false);
+    },
+
+    dragLeave: function dragLeave() {
+      this._resetDroppability();
+    },
+
+    // Need to track this so we can determine `self-drop`.
+    // It's on `Droppable` so we can test :\
+    dragStart: function dragStart(event) {
+      this.set('_currentDrag', event.target);
+    }
+
+  });
+
+  exports['default'] = Droppable;
+});
+define('ember-drag-drop/services/drag-coordinator', ['exports', 'ember'], function (exports, _ember) {
+  'use strict';
+
+  function swapInPlace(items, a, b) {
+    var aPos = items.indexOf(a);
+    var bPos = items.indexOf(b);
+
+    items.replace(aPos, 1, [b]);
+    items.replace(bPos, 1, [a]);
+  }
+
+  function shiftInPlace(items, a, b) {
+    var aPos = items.indexOf(a);
+    var bPos = items.indexOf(b);
+
+    items.removeAt(aPos);
+    items.insertAt(bPos, a);
+  }
+
+  exports['default'] = _ember['default'].Service.extend({
+    sortComponentController: null,
+    currentDragObject: null,
+    currentDragEvent: null,
+    currentDragItem: null,
+    currentOffsetItem: null,
+    isMoving: false,
+    lastEvent: null,
+    sortComponents: {}, // Use object for sortComponents so that we can scope per sortingScope
+
+    arrayList: _ember['default'].computed.alias('sortComponentController.sortableObjectList'),
+    enableSort: _ember['default'].computed.alias('sortComponentController.enableSort'),
+    useSwap: _ember['default'].computed.alias('sortComponentController.useSwap'),
+    inPlace: _ember['default'].computed.alias('sortComponentController.inPlace'),
+
+    pushSortComponent: function pushSortComponent(component) {
+      var sortingScope = component.get('sortingScope');
+      if (!this.get('sortComponents')[sortingScope]) {
+        this.get('sortComponents')[sortingScope] = _ember['default'].A();
+      }
+      this.get('sortComponents')[sortingScope].pushObject(component);
+    },
+
+    removeSortComponent: function removeSortComponent(component) {
+      var sortingScope = component.get('sortingScope');
+      this.get('sortComponents')[sortingScope].removeObject(component);
+    },
+
+    dragStarted: function dragStarted(object, event, emberObject) {
+      this.set('currentDragObject', object);
+      this.set('currentDragEvent', event);
+      this.set('currentDragItem', emberObject);
+      event.dataTransfer.effectAllowed = 'move';
+    },
+
+    dragEnded: function dragEnded() {
+      this.set('currentDragObject', null);
+      this.set('currentDragEvent', null);
+      this.set('currentDragItem', null);
+      this.set('currentOffsetItem', null);
+    },
+
+    draggingOver: function draggingOver(event, emberObject) {
+      var currentOffsetItem = this.get('currentOffsetItem');
+      var pos = this.relativeClientPosition(emberObject.$()[0], event);
+      var hasSameSortingScope = this.get('currentDragItem.sortingScope') === emberObject.get('sortingScope');
+      var moveDirection = false;
+
+      if (!this.get('lastEvent')) {
+        this.set('lastEvent', event);
+      }
+
+      if (event.originalEvent.clientY < this.get('lastEvent').originalEvent.clientY) {
+        moveDirection = 'up';
+      }
+
+      if (event.originalEvent.clientY > this.get('lastEvent').originalEvent.clientY) {
+        moveDirection = 'down';
+      }
+
+      this.set('lastEvent', event);
+
+      if (!this.get('isMoving')) {
+        if (event.target !== this.get('currentDragEvent').target && hasSameSortingScope) {
+          //if not dragging over self
+          if (currentOffsetItem !== emberObject) {
+            if (pos.py > 0.33 && moveDirection === 'up' || pos.py > 0.33 && moveDirection === 'down') {
+
+              this.moveElements(emberObject);
+              this.set('currentOffsetItem', emberObject);
+            }
+          }
+        } else {
+          //reset because the node moved under the mouse with a move
+          this.set('currentOffsetItem', null);
+        }
+      }
+    },
+
+    moveObjectPositions: function moveObjectPositions(a, b, sortComponents) {
+      var aSortable = sortComponents.find(function (component) {
+        return component.get('sortableObjectList').find(function (sortable) {
+          return sortable === a;
+        });
+      });
+      var bSortable = sortComponents.find(function (component) {
+        return component.get('sortableObjectList').find(function (sortable) {
+          return sortable === b;
+        });
+      });
+      var swap = aSortable === bSortable;
+
+      if (swap) {
+
+        var list = aSortable.get('sortableObjectList');
+        if (!this.get('inPlace')) {
+          list = list.toArray();
+        }
+
+        if (this.get('useSwap')) {
+          swapInPlace(list, a, b);
+        } else {
+          shiftInPlace(list, a, b);
+        }
+
+        if (!this.get('inPlace')) {
+          aSortable.set('sortableObjectList', list);
+        }
+      } else {
+        // Move if items are in different sortable-objects component
+        var aList = aSortable.get('sortableObjectList');
+        var bList = bSortable.get('sortableObjectList');
+
+        // Remove from aList and insert into bList
+        aList.removeObject(a);
+        bList.insertAt(bList.indexOf(b), a);
+      }
+    },
+
+    moveElements: function moveElements(overElement) {
+      var isEnabled = Object.keys(this.get('sortComponents')).length;
+      var draggingItem = this.get('currentDragItem');
+      var sortComponents = this.get('sortComponents')[draggingItem.get('sortingScope')];
+
+      if (!isEnabled) {
+        return;
+      }
+
+      this.moveObjectPositions(draggingItem.get('content'), overElement.get('content'), sortComponents);
+
+      sortComponents.forEach(function (component) {
+        component.rerender();
+      });
+    },
+
+    relativeClientPosition: function relativeClientPosition(el, event) {
+      var rect = el.getBoundingClientRect();
+      var x = event.originalEvent.clientX - rect.left;
+      var y = event.originalEvent.clientY - rect.top;
+
+      return {
+        x: x,
+        y: y,
+        px: x / rect.width,
+        py: y / rect.height
+      };
+    }
+  });
+});
 define("ember-get-config/index", ["exports"], function (exports) {
   "use strict";
 

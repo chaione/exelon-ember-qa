@@ -130,7 +130,7 @@ define('portal/tests/components/element-parent/component.jshint', ['exports'], f
   QUnit.module('JSHint | components/element-parent/component.js');
   QUnit.test('should pass jshint', function (assert) {
     assert.expect(1);
-    assert.ok(true, 'components/element-parent/component.js should pass jshint.');
+    assert.ok(false, 'components/element-parent/component.js should pass jshint.\ncomponents/element-parent/component.js: line 130, col 9, \'keyDS\' is defined but never used.\n\n1 error');
   });
 });
 define('portal/tests/components/element-search-step/component.jshint', ['exports'], function (exports) {
@@ -256,7 +256,7 @@ define('portal/tests/form/controller.jshint', ['exports'], function (exports) {
   QUnit.module('JSHint | form/controller.js');
   QUnit.test('should pass jshint', function (assert) {
     assert.expect(1);
-    assert.ok(false, 'form/controller.js should pass jshint.\nform/controller.js: line 12, col 15, \'form\' is defined but never used.\nform/controller.js: line 13, col 15, \'lastSection\' is defined but never used.\nform/controller.js: line 23, col 15, \'form\' is defined but never used.\nform/controller.js: line 34, col 17, \'newSection\' is defined but never used.\nform/controller.js: line 46, col 76, Expected \'===\' and instead saw \'==\'.\nform/controller.js: line 57, col 76, Expected \'===\' and instead saw \'==\'.\nform/controller.js: line 65, col 40, Expected \'===\' and instead saw \'==\'.\nform/controller.js: line 143, col 13, \'$\' is not defined.\n\n8 errors');
+    assert.ok(false, 'form/controller.js should pass jshint.\nform/controller.js: line 17, col 11, \'form\' is defined but never used.\nform/controller.js: line 18, col 11, \'lastSection\' is defined but never used.\nform/controller.js: line 28, col 11, \'form\' is defined but never used.\nform/controller.js: line 39, col 11, \'newSection\' is defined but never used.\nform/controller.js: line 51, col 70, Expected \'===\' and instead saw \'==\'.\nform/controller.js: line 59, col 70, Expected \'===\' and instead saw \'==\'.\nform/controller.js: line 67, col 29, Expected \'===\' and instead saw \'==\'.\nform/controller.js: line 140, col 7, \'$\' is not defined.\n\n8 errors');
   });
 });
 define('portal/tests/form/model.jshint', ['exports'], function (exports) {
@@ -304,6 +304,50 @@ define('portal/tests/helpers/boolean-checker.jshint', ['exports'], function (exp
     assert.ok(true, 'helpers/boolean-checker.js should pass jshint.');
   });
 });
+define('portal/tests/helpers/data-transfer', ['exports', 'ember'], function (exports, _ember) {
+
+  var c = _ember['default'].Object.extend({
+    getData: function getData() {
+      return this.get('payload');
+    },
+
+    setData: function setData(dataType, payload) {
+      this.set("data", { dataType: dataType, payload: payload });
+    }
+  });
+
+  c.reopenClass({
+    makeMockEvent: function makeMockEvent(payload) {
+      var transfer = this.create({ payload: payload });
+      var res = { dataTransfer: transfer };
+      res.originalEvent = res;
+      res.originalEvent.preventDefault = function () {
+        console.log('prevent default');
+      };
+      res.originalEvent.stopPropagation = function () {
+        console.log('stop propagation');
+      };
+      return res;
+    },
+
+    createDomEvent: function createDomEvent(type) {
+      var event = document.createEvent("CustomEvent");
+      event.initCustomEvent(type, true, true, null);
+      event.dataTransfer = {
+        data: {},
+        setData: function setData(type, val) {
+          this.data[type] = val;
+        },
+        getData: function getData(type) {
+          return this.data[type];
+        }
+      };
+      return event;
+    }
+  });
+
+  exports['default'] = c;
+});
 define('portal/tests/helpers/destroy-app', ['exports', 'ember'], function (exports, _ember) {
   exports['default'] = destroyApp;
 
@@ -319,6 +363,137 @@ define('portal/tests/helpers/destroy-app.jshint', ['exports'], function (exports
     assert.expect(1);
     assert.ok(true, 'helpers/destroy-app.js should pass jshint.');
   });
+});
+define('portal/tests/helpers/drag-drop', ['exports', 'ember-native-dom-helpers', 'portal/tests/helpers/mock-event'], function (exports, _emberNativeDomHelpers, _portalTestsHelpersMockEvent) {
+  var _slicedToArray = (function () { function sliceIterator(arr, i) { var _arr = []; var _n = true; var _d = false; var _e = undefined; try { for (var _i = arr[Symbol.iterator](), _s; !(_n = (_s = _i.next()).done); _n = true) { _arr.push(_s.value); if (i && _arr.length === i) break; } } catch (err) { _d = true; _e = err; } finally { try { if (!_n && _i['return']) _i['return'](); } finally { if (_d) throw _e; } } return _arr; } return function (arr, i) { if (Array.isArray(arr)) { return arr; } else if (Symbol.iterator in Object(arr)) { return sliceIterator(arr, i); } else { throw new TypeError('Invalid attempt to destructure non-iterable instance'); } }; })();
+
+  exports.drag = drag;
+
+  function dragOver(dropSelector, moves) {
+    return regeneratorRuntime.async(function dragOver$(context$1$0) {
+      var _this = this;
+
+      while (1) switch (context$1$0.prev = context$1$0.next) {
+        case 0:
+          moves = moves || [[{ clientX: 1, clientY: 1 }, dropSelector]];
+          return context$1$0.abrupt('return', moves.forEach(function callee$1$0(_ref) {
+            var _ref2 = _slicedToArray(_ref, 2);
+
+            var position = _ref2[0];
+            var selector = _ref2[1];
+            var event;
+            return regeneratorRuntime.async(function callee$1$0$(context$2$0) {
+              while (1) switch (context$2$0.prev = context$2$0.next) {
+                case 0:
+                  event = new _portalTestsHelpersMockEvent['default'](position);
+                  context$2$0.next = 3;
+                  return regeneratorRuntime.awrap((0, _emberNativeDomHelpers.triggerEvent)(selector || dropSelector, 'dragover', event));
+
+                case 3:
+                case 'end':
+                  return context$2$0.stop();
+              }
+            }, null, _this);
+          }));
+
+        case 2:
+        case 'end':
+          return context$1$0.stop();
+      }
+    }, null, this);
+  }
+
+  function drop(dragSelector, dragEvent, options) {
+    var dropSelector, dropEndOptions, dragOverMoves, dropElement, event;
+    return regeneratorRuntime.async(function drop$(context$1$0) {
+      while (1) switch (context$1$0.prev = context$1$0.next) {
+        case 0:
+          dropSelector = options.drop;
+          dropEndOptions = options.dropEndOptions;
+          dragOverMoves = options.dragOverMoves;
+          context$1$0.next = 5;
+          return regeneratorRuntime.awrap((0, _emberNativeDomHelpers.find)(dropSelector));
+
+        case 5:
+          dropElement = context$1$0.sent;
+
+          if (dropElement) {
+            context$1$0.next = 8;
+            break;
+          }
+
+          throw 'There are no drop targets by the given selector: \'' + dropSelector + '\'';
+
+        case 8:
+          context$1$0.next = 10;
+          return regeneratorRuntime.awrap(dragOver(dropSelector, dragOverMoves));
+
+        case 10:
+          if (!options.beforeDrop) {
+            context$1$0.next = 13;
+            break;
+          }
+
+          context$1$0.next = 13;
+          return regeneratorRuntime.awrap(options.beforeDrop.call());
+
+        case 13:
+          event = new _portalTestsHelpersMockEvent['default']().useDataTransferData(dragEvent);
+          context$1$0.next = 16;
+          return regeneratorRuntime.awrap((0, _emberNativeDomHelpers.triggerEvent)(dropSelector, 'drop', event));
+
+        case 16:
+          context$1$0.next = 18;
+          return regeneratorRuntime.awrap((0, _emberNativeDomHelpers.triggerEvent)(dragSelector, 'dragend', dropEndOptions));
+
+        case 18:
+          return context$1$0.abrupt('return', context$1$0.sent);
+
+        case 19:
+        case 'end':
+          return context$1$0.stop();
+      }
+    }, null, this);
+  }
+
+  function drag(dragSelector) {
+    var options = arguments.length <= 1 || arguments[1] === undefined ? {} : arguments[1];
+    var dragEvent;
+    return regeneratorRuntime.async(function drag$(context$1$0) {
+      while (1) switch (context$1$0.prev = context$1$0.next) {
+        case 0:
+          dragEvent = new _portalTestsHelpersMockEvent['default'](options.dragStartOptions);
+          context$1$0.next = 3;
+          return regeneratorRuntime.awrap((0, _emberNativeDomHelpers.triggerEvent)(dragSelector, 'mouseover'));
+
+        case 3:
+          context$1$0.next = 5;
+          return regeneratorRuntime.awrap((0, _emberNativeDomHelpers.triggerEvent)(dragSelector, 'dragstart', dragEvent));
+
+        case 5:
+          if (!options.afterDrag) {
+            context$1$0.next = 8;
+            break;
+          }
+
+          context$1$0.next = 8;
+          return regeneratorRuntime.awrap(options.afterDrag.call());
+
+        case 8:
+          if (!options.drop) {
+            context$1$0.next = 11;
+            break;
+          }
+
+          context$1$0.next = 11;
+          return regeneratorRuntime.awrap(drop(dragSelector, dragEvent, options));
+
+        case 11:
+        case 'end':
+          return context$1$0.stop();
+      }
+    }, null, this);
+  }
 });
 define('portal/tests/helpers/ember-basic-dropdown', ['exports'], function (exports) {
   exports.clickTrigger = clickTrigger;
@@ -363,6 +538,57 @@ define('portal/tests/helpers/ember-basic-dropdown', ['exports'], function (expor
     });
   }
 });
+define('portal/tests/helpers/ember-drag-drop', ['exports', 'ember', 'jquery', 'portal/tests/helpers/data-transfer'], function (exports, _ember, _jquery, _portalTestsHelpersDataTransfer) {
+  exports.drag = drag;
+
+  function drop($dragHandle, dropCssPath, dragEvent) {
+    var $dropTarget = (0, _jquery['default'])(dropCssPath);
+
+    if ($dropTarget.length === 0) {
+      throw 'There are no drop targets by the given selector: \'' + dropCssPath + '\'';
+    }
+
+    _ember['default'].run(function () {
+      triggerEvent($dropTarget, 'dragover', _portalTestsHelpersDataTransfer['default'].makeMockEvent());
+    });
+
+    _ember['default'].run(function () {
+      triggerEvent($dropTarget, 'drop', _portalTestsHelpersDataTransfer['default'].makeMockEvent(dragEvent.dataTransfer.get('data.payload')));
+    });
+
+    _ember['default'].run(function () {
+      triggerEvent($dragHandle, 'dragend', _portalTestsHelpersDataTransfer['default'].makeMockEvent());
+    });
+  }
+
+  function drag(cssPath) {
+    var options = arguments.length <= 1 || arguments[1] === undefined ? {} : arguments[1];
+
+    var dragEvent = _portalTestsHelpersDataTransfer['default'].makeMockEvent();
+    var $dragHandle = (0, _jquery['default'])(cssPath);
+
+    _ember['default'].run(function () {
+      triggerEvent($dragHandle, 'mouseover');
+    });
+
+    _ember['default'].run(function () {
+      triggerEvent($dragHandle, 'dragstart', dragEvent);
+    });
+
+    andThen(function () {
+      if (options.beforeDrop) {
+        options.beforeDrop.call();
+      }
+    });
+
+    andThen(function () {
+      if (options.drop) {
+        drop($dragHandle, options.drop, dragEvent);
+      }
+    });
+  }
+});
+/* global triggerEvent , andThen */
 define('portal/tests/helpers/ember-power-select', ['exports', 'ember'], function (exports, _ember) {
   exports.nativeMouseDown = nativeMouseDown;
   exports.nativeMouseUp = nativeMouseUp;
@@ -621,6 +847,87 @@ define('portal/tests/helpers/logger.jshint', ['exports'], function (exports) {
     assert.expect(1);
     assert.ok(true, 'helpers/logger.js should pass jshint.');
   });
+});
+define('portal/tests/helpers/mock-event', ['exports'], function (exports) {
+  var _createClass = (function () { function defineProperties(target, props) { for (var i = 0; i < props.length; i++) { var descriptor = props[i]; descriptor.enumerable = descriptor.enumerable || false; descriptor.configurable = true; if ('value' in descriptor) descriptor.writable = true; Object.defineProperty(target, descriptor.key, descriptor); } } return function (Constructor, protoProps, staticProps) { if (protoProps) defineProperties(Constructor.prototype, protoProps); if (staticProps) defineProperties(Constructor, staticProps); return Constructor; }; })();
+
+  exports.createDomEvent = createDomEvent;
+
+  function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError('Cannot call a class as a function'); } }
+
+  var DataTransfer = (function () {
+    function DataTransfer() {
+      _classCallCheck(this, DataTransfer);
+
+      this.data = {};
+    }
+
+    _createClass(DataTransfer, [{
+      key: 'setData',
+      value: function setData(type, value) {
+        this.data[type] = value;
+        return this;
+      }
+    }, {
+      key: 'getData',
+      value: function getData() {
+        var type = arguments.length <= 0 || arguments[0] === undefined ? "Text" : arguments[0];
+
+        return this.data[type];
+      }
+    }, {
+      key: 'setDragImage',
+      value: function setDragImage() {}
+    }]);
+
+    return DataTransfer;
+  })();
+
+  var MockEvent = (function () {
+    function MockEvent() {
+      var options = arguments.length <= 0 || arguments[0] === undefined ? {} : arguments[0];
+
+      _classCallCheck(this, MockEvent);
+
+      this.dataTransfer = new DataTransfer();
+      this.dataTransfer.setData('Text', options.dataTransferData);
+      this.originalEvent = this;
+      this.setProperties(options);
+    }
+
+    _createClass(MockEvent, [{
+      key: 'useDataTransferData',
+      value: function useDataTransferData(otherEvent) {
+        this.dataTransfer.setData('Text', otherEvent.dataTransfer.getData());
+        return this;
+      }
+    }, {
+      key: 'setProperties',
+      value: function setProperties(props) {
+        for (var prop in props) {
+          this[prop] = props[prop];
+        }
+        return this;
+      }
+    }, {
+      key: 'preventDefault',
+      value: function preventDefault() {}
+    }, {
+      key: 'stopPropagation',
+      value: function stopPropagation() {}
+    }]);
+
+    return MockEvent;
+  })();
+
+  exports['default'] = MockEvent;
+
+  function createDomEvent(type) {
+    var event = document.createEvent("CustomEvent");
+    event.initCustomEvent(type, true, true, null);
+    event.dataTransfer = new DataTransfer();
+    return event;
+  }
 });
 define('portal/tests/helpers/module-for-acceptance', ['exports', 'qunit', 'portal/tests/helpers/start-app', 'portal/tests/helpers/destroy-app'], function (exports, _qunit, _portalTestsHelpersStartApp, _portalTestsHelpersDestroyApp) {
   exports['default'] = function (name) {
