@@ -22,7 +22,7 @@ define('portal/tests/application/controller.jshint', ['exports'], function (expo
   QUnit.module('JSHint | application/controller.js');
   QUnit.test('should pass jshint', function (assert) {
     assert.expect(1);
-    assert.ok(true, 'application/controller.js should pass jshint.');
+    assert.ok(false, 'application/controller.js should pass jshint.\napplication/controller.js: line 8, col 5, \'$\' is not defined.\n\n1 error');
   });
 });
 define('portal/tests/application/serializer.jshint', ['exports'], function (exports) {
@@ -130,7 +130,7 @@ define('portal/tests/components/element-parent/component.jshint', ['exports'], f
   QUnit.module('JSHint | components/element-parent/component.js');
   QUnit.test('should pass jshint', function (assert) {
     assert.expect(1);
-    assert.ok(false, 'components/element-parent/component.js should pass jshint.\ncomponents/element-parent/component.js: line 130, col 9, \'keyDS\' is defined but never used.\n\n1 error');
+    assert.ok(false, 'components/element-parent/component.js should pass jshint.\ncomponents/element-parent/component.js: line 133, col 9, \'keyDS\' is defined but never used.\ncomponents/element-parent/component.js: line 145, col 5, \'stickyHeaders\' is not defined.\ncomponents/element-parent/component.js: line 145, col 24, \'$\' is not defined.\n\n3 errors');
   });
 });
 define('portal/tests/components/element-search-step/component.jshint', ['exports'], function (exports) {
@@ -256,7 +256,7 @@ define('portal/tests/form/controller.jshint', ['exports'], function (exports) {
   QUnit.module('JSHint | form/controller.js');
   QUnit.test('should pass jshint', function (assert) {
     assert.expect(1);
-    assert.ok(false, 'form/controller.js should pass jshint.\nform/controller.js: line 17, col 11, \'form\' is defined but never used.\nform/controller.js: line 18, col 11, \'lastSection\' is defined but never used.\nform/controller.js: line 28, col 11, \'form\' is defined but never used.\nform/controller.js: line 39, col 11, \'newSection\' is defined but never used.\nform/controller.js: line 51, col 70, Expected \'===\' and instead saw \'==\'.\nform/controller.js: line 59, col 70, Expected \'===\' and instead saw \'==\'.\nform/controller.js: line 67, col 29, Expected \'===\' and instead saw \'==\'.\nform/controller.js: line 140, col 7, \'$\' is not defined.\n\n8 errors');
+    assert.ok(false, 'form/controller.js should pass jshint.\nform/controller.js: line 26, col 11, \'form\' is defined but never used.\nform/controller.js: line 27, col 11, \'lastSection\' is defined but never used.\nform/controller.js: line 37, col 11, \'form\' is defined but never used.\nform/controller.js: line 48, col 11, \'newSection\' is defined but never used.\nform/controller.js: line 60, col 70, Expected \'===\' and instead saw \'==\'.\nform/controller.js: line 68, col 70, Expected \'===\' and instead saw \'==\'.\nform/controller.js: line 76, col 29, Expected \'===\' and instead saw \'==\'.\nform/controller.js: line 149, col 7, \'$\' is not defined.\n\n8 errors');
   });
 });
 define('portal/tests/form/model.jshint', ['exports'], function (exports) {
@@ -274,7 +274,7 @@ define('portal/tests/form/route.jshint', ['exports'], function (exports) {
   QUnit.module('JSHint | form/route.js');
   QUnit.test('should pass jshint', function (assert) {
     assert.expect(1);
-    assert.ok(false, 'form/route.js should pass jshint.\nform/route.js: line 51, col 146, Expected \'===\' and instead saw \'==\'.\n\n1 error');
+    assert.ok(false, 'form/route.js should pass jshint.\nform/route.js: line 53, col 134, Expected \'===\' and instead saw \'==\'.\n\n1 error');
   });
 });
 define('portal/tests/forms/controller.jshint', ['exports'], function (exports) {
@@ -4611,6 +4611,15 @@ define('portal/tests/login/route.jshint', ['exports'], function (exports) {
     assert.ok(true, 'login/route.js should pass jshint.');
   });
 });
+define('portal/tests/mixins/scrollable.jshint', ['exports'], function (exports) {
+  'use strict';
+
+  QUnit.module('JSHint | mixins/scrollable.js');
+  QUnit.test('should pass jshint', function (assert) {
+    assert.expect(1);
+    assert.ok(false, 'mixins/scrollable.js should pass jshint.\nmixins/scrollable.js: line 4, col 27, \'opts\' is defined but never used.\nmixins/scrollable.js: line 11, col 5, \'$\' is not defined.\nmixins/scrollable.js: line 12, col 5, \'$\' is not defined.\nmixins/scrollable.js: line 16, col 5, \'$\' is not defined.\nmixins/scrollable.js: line 17, col 5, \'$\' is not defined.\n\n5 errors');
+  });
+});
 define('portal/tests/poc/model.jshint', ['exports'], function (exports) {
   'use strict';
 
@@ -5168,6 +5177,26 @@ define('portal/tests/unit/login/route-test.jshint', ['exports'], function (expor
   QUnit.test('should pass jshint', function (assert) {
     assert.expect(1);
     assert.ok(true, 'unit/login/route-test.js should pass jshint.');
+  });
+});
+define('portal/tests/unit/mixins/scrollable-test', ['exports', 'ember', 'portal/mixins/scrollable', 'qunit'], function (exports, _ember, _portalMixinsScrollable, _qunit) {
+
+  (0, _qunit.module)('Unit | Mixin | scrollable');
+
+  // Replace this with your real tests.
+  (0, _qunit.test)('it works', function (assert) {
+    var ScrollableObject = _ember['default'].Object.extend(_portalMixinsScrollable['default']);
+    var subject = ScrollableObject.create();
+    assert.ok(subject);
+  });
+});
+define('portal/tests/unit/mixins/scrollable-test.jshint', ['exports'], function (exports) {
+  'use strict';
+
+  QUnit.module('JSHint | unit/mixins/scrollable-test.js');
+  QUnit.test('should pass jshint', function (assert) {
+    assert.expect(1);
+    assert.ok(true, 'unit/mixins/scrollable-test.js should pass jshint.');
   });
 });
 define('portal/tests/unit/poc/model-test', ['exports', 'ember-qunit'], function (exports, _emberQunit) {

@@ -7,15 +7,12 @@
     <title>Portal</title>
     <meta name="description" content="">
     <meta name="viewport" content="width=device-width, initial-scale=1">
-
     <base href="/exelon-ember-qa/" />
-    <meta name="portal/config/environment" content="%7B%22modulePrefix%22%3A%22portal%22%2C%22environment%22%3A%22qa%22%2C%22baseURL%22%3A%22/%22%2C%22locationType%22%3A%22auto%22%2C%22EmberENV%22%3A%7B%22FEATURES%22%3A%7B%7D%7D%2C%22APP%22%3A%7B%22environment%22%3A%22qa%22%2C%22name%22%3A%22portal%22%2C%22version%22%3A%220.0.0+8f70db0b%22%7D%2C%22ember-cli-toggle%22%3A%7B%22includedThemes%22%3A%5B%22light%22%2C%22default%22%2C%22flip%22%5D%2C%22excludedThemes%22%3A%5B%22flip%22%5D%2C%22defaultShowLabels%22%3Atrue%2C%22defaultTheme%22%3A%22light%22%2C%22defaultSize%22%3A%22small%22%2C%22defaultOffLabel%22%3A%22False%22%2C%22defaultOnLabel%22%3A%22True%22%7D%2C%22siteId%22%3A1%2C%22buildTime%22%3A%22Tue%20Jan%2002%202018%2013%3A40%3A28%20GMT-0600%20%28CST%29%22%2C%22host%22%3A%22https%3A//exelon-api-qa.herokuapp.com%22%2C%22namespace%22%3A%22v1%22%2C%22exportApplicationGlobal%22%3Atrue%7D"
+    <meta name="portal/config/environment" content="%7B%22modulePrefix%22%3A%22portal%22%2C%22environment%22%3A%22qa%22%2C%22baseURL%22%3A%22/%22%2C%22locationType%22%3A%22auto%22%2C%22EmberENV%22%3A%7B%22FEATURES%22%3A%7B%7D%7D%2C%22APP%22%3A%7B%22environment%22%3A%22qa%22%2C%22name%22%3A%22portal%22%2C%22version%22%3A%220.0.0+2106d1c8%22%7D%2C%22ember-cli-toggle%22%3A%7B%22includedThemes%22%3A%5B%22light%22%2C%22default%22%2C%22flip%22%5D%2C%22excludedThemes%22%3A%5B%22flip%22%5D%2C%22defaultShowLabels%22%3Atrue%2C%22defaultTheme%22%3A%22light%22%2C%22defaultSize%22%3A%22small%22%2C%22defaultOffLabel%22%3A%22False%22%2C%22defaultOnLabel%22%3A%22True%22%7D%2C%22siteId%22%3A1%2C%22buildTime%22%3A%22Wed%20Jan%2010%202018%2013%3A11%3A58%20GMT-0600%20%28CST%29%22%2C%22host%22%3A%22https%3A//exelon-api-qa.herokuapp.com%22%2C%22namespace%22%3A%22v1%22%2C%22exportApplicationGlobal%22%3Atrue%7D"
     />
 
     <link rel="stylesheet" href="assets/vendor.css">
     <link rel="stylesheet" href="assets/portal.css">
-
-
 </head>
 
 <body>
@@ -26,5 +23,67 @@
 
     <div id="ember-basic-dropdown-wormhole"></div>
 </body>
+<script type="text/javascript">
+    document.addEventListener('DOMContentLoaded', function() {
+        stickyHeaders = (function() {
+            var $window = $(window);
+            var $stickies;
+
+            var load = function(stickies) {
+
+                if (typeof stickies === "object" && stickies instanceof jQuery && stickies.length > 0) {
+                    $stickies = stickies.each(function() {
+
+                        var $thisSticky = $(this).wrap('<div class="followWrap" />');
+
+                        $thisSticky
+                            .data('originalPosition', $thisSticky.offset().top)
+                            .data('originalHeight', $thisSticky.outerHeight())
+                            .parent()
+                            .height($thisSticky.outerHeight());
+                    });
+
+                    $window.off("scroll.stickies").on("scroll.stickies", function() {
+                        _whenScrolling();
+                    });
+                }
+            };
+
+            var _whenScrolling = function() {
+                $stickies.each(function(i) {
+
+                    var $thisSticky = $(this),
+                        $stickyPosition = $thisSticky.data('originalPosition');
+
+                    if ($stickyPosition <= ($window.scrollTop() + 91)) {
+                        var $nextSticky = $stickies.eq(i + 1),
+                            $nextStickyPosition = $nextSticky.data('originalPosition') - $thisSticky.data('originalHeight');
+
+                        $thisSticky.addClass("fixed");
+
+                        if ($nextSticky.length > 0 && $thisSticky.offset().top >= $nextStickyPosition) {
+                            $thisSticky.addClass("absolute").css("top", $nextStickyPosition);
+                        }
+
+                    } else {
+                        var $prevSticky = $stickies.eq(i - 1);
+                        $thisSticky.removeClass("fixed");
+                        if ($prevSticky.length > 0 && ($window.scrollTop() + 91) <= $thisSticky.data('originalPosition') - $thisSticky.data('originalHeight')) {
+                            $prevSticky.removeClass("absolute").removeAttr("style");
+                        }
+                    }
+                });
+            };
+
+            return {
+                load: load
+            };
+        })();
+
+        $(function() {
+            stickyHeaders.load($(".followMeBar"));
+        });
+    });
+</script>
 
 </html>

@@ -6109,9 +6109,6 @@ button.close {
     height: 40px;
     width: auto; }
 
-.element-parent .bottomOptions {
-  margin: 20px; }
-
 .element-parent:hover {
   border-left: 5px solid #5a5aaf;
   background-color: #13172B;
@@ -6126,10 +6123,7 @@ button.close {
     cursor: default; }
 
 .element-parent .clickableArea {
-  padding-top: 50px;
-  padding-bottom: 50px;
-  padding-left: 20px;
-  padding-right: 20px; }
+  padding: 20px; }
 
 .element-parent .questionText {
   float: left; }
@@ -6145,6 +6139,12 @@ button.close {
 .component .component-body .component-content {
   margin-top: 40px;
   background-color: red; }
+
+.element-index {
+  margin-top: -10px; }
+
+.row-element-index {
+  color: gray; }
 
 body {
   background-color: rgba(16, 20, 29, 0.75);
@@ -6204,6 +6204,14 @@ textarea {
 .search-bar-form input:-ms-input-placeholder {
   color: rgba(16, 20, 29, 0.75) !important; }
 
+::-ms-clear {
+  display: none; }
+
+.form-control-clear {
+  z-index: 10;
+  pointer-events: auto;
+  cursor: pointer; }
+
 .form .formHeader {
   background-color: rgba(12, 12, 26, 0.96);
   height: 100px; }
@@ -6219,7 +6227,8 @@ textarea {
   .formContent .element-bottom {
     background-color: #01fea9;
     color: #12121d;
-    height: 40px; }
+    height: 40px;
+    padding-top: 10px; }
     .formContent .element-bottom .add-element-button {
       cursor: pointer; }
   .formContent .section-bottom {
