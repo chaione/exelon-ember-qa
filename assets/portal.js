@@ -630,11 +630,9 @@ define("portal/components/element-basic/template", ["exports"], function (export
           dom.setAttribute(el1, "class", "col-xs-2 component-header pull-right");
           var el2 = dom.createTextNode("\n            ");
           dom.appendChild(el1, el2);
-          var el2 = dom.createElement("h4");
-          var el3 = dom.createElement("span");
-          dom.setAttribute(el3, "class", "form-element-dragHandler glyphicon glyphicon-align-justify");
-          dom.setAttribute(el3, "aria-hidden", "true");
-          dom.appendChild(el2, el3);
+          var el2 = dom.createElement("img");
+          dom.setAttribute(el2, "src", "assets/images/icn-draganddrop.png");
+          dom.setAttribute(el2, "class", "form-element-dragHandler");
           dom.appendChild(el1, el2);
           var el2 = dom.createTextNode("\n        ");
           dom.appendChild(el1, el2);
@@ -967,11 +965,9 @@ define("portal/components/element-checklist-item/template", ["exports"], functio
           dom.setAttribute(el1, "class", "col-xs-2 component-header pull-right");
           var el2 = dom.createTextNode("\n            ");
           dom.appendChild(el1, el2);
-          var el2 = dom.createElement("h4");
-          var el3 = dom.createElement("span");
-          dom.setAttribute(el3, "class", "form-element-dragHandler glyphicon glyphicon-align-justify");
-          dom.setAttribute(el3, "aria-hidden", "true");
-          dom.appendChild(el2, el3);
+          var el2 = dom.createElement("img");
+          dom.setAttribute(el2, "src", "assets/images/icn-draganddrop.png");
+          dom.setAttribute(el2, "class", "form-element-dragHandler");
           dom.appendChild(el1, el2);
           var el2 = dom.createTextNode("\n        ");
           dom.appendChild(el1, el2);
@@ -1284,11 +1280,9 @@ define("portal/components/element-dropdown/template", ["exports"], function (exp
           dom.setAttribute(el1, "class", "col-xs-2 component-header pull-right");
           var el2 = dom.createTextNode("\n            ");
           dom.appendChild(el1, el2);
-          var el2 = dom.createElement("h4");
-          var el3 = dom.createElement("span");
-          dom.setAttribute(el3, "class", "form-element-dragHandler glyphicon glyphicon-align-justify");
-          dom.setAttribute(el3, "aria-hidden", "true");
-          dom.appendChild(el2, el3);
+          var el2 = dom.createElement("img");
+          dom.setAttribute(el2, "src", "assets/images/icn-draganddrop.png");
+          dom.setAttribute(el2, "class", "form-element-dragHandler");
           dom.appendChild(el1, el2);
           var el2 = dom.createTextNode("\n        ");
           dom.appendChild(el1, el2);
@@ -1802,11 +1796,9 @@ define("portal/components/element-label/template", ["exports"], function (export
           dom.setAttribute(el1, "class", "col-xs-2 component-header pull-right");
           var el2 = dom.createTextNode("\n            ");
           dom.appendChild(el1, el2);
-          var el2 = dom.createElement("h4");
-          var el3 = dom.createElement("span");
-          dom.setAttribute(el3, "class", "form-element-dragHandler glyphicon glyphicon-align-justify");
-          dom.setAttribute(el3, "aria-hidden", "true");
-          dom.appendChild(el2, el3);
+          var el2 = dom.createElement("img");
+          dom.setAttribute(el2, "src", "assets/images/icn-draganddrop.png");
+          dom.setAttribute(el2, "class", "form-element-dragHandler");
           dom.appendChild(el1, el2);
           var el2 = dom.createTextNode("\n        ");
           dom.appendChild(el1, el2);
@@ -6942,7 +6934,7 @@ catch(err) {
 /* jshint ignore:start */
 
 if (!runningTests) {
-  require("portal/app")["default"].create({"environment":"qa","name":"portal","version":"0.0.0+2106d1c8"});
+  require("portal/app")["default"].create({"environment":"qa","name":"portal","version":"0.0.0+f95af759"});
 }
 
 /* jshint ignore:end */

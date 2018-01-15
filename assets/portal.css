@@ -6146,6 +6146,14 @@ button.close {
 .row-element-index {
   color: gray; }
 
+.form-element-dragHandler {
+  width: 60px;
+  height: 60px;
+  -webkit-user-drag: none;
+  -khtml-user-drag: none;
+  -moz-user-drag: none;
+  -o-user-drag: none; }
+
 body {
   background-color: rgba(16, 20, 29, 0.75);
   margin: 0px;
