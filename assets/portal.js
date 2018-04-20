@@ -1526,7 +1526,7 @@ define('portal/components/element-form-dropdowns/component', ['exports', 'ember'
   exports['default'] = _ember['default'].Component.extend({
     tagDropdownDisabled: _ember['default'].computed('element_type', function () {
       var elementType = this.get('elementType');
-      return ["dropdown", "checklist-item"].includes(elementType);
+      return ["dropdown", "checklist-item"].indexOf(elementType) > -1;
     })
   });
 });
@@ -6934,7 +6934,7 @@ catch(err) {
 /* jshint ignore:start */
 
 if (!runningTests) {
-  require("portal/app")["default"].create({"environment":"qa","name":"portal","version":"0.0.0+f95af759"});
+  require("portal/app")["default"].create({"environment":"dev","name":"portal","version":"0.0.0+3526f6ad"});
 }
 
 /* jshint ignore:end */
