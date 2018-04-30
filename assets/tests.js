@@ -130,7 +130,7 @@ define('portal/tests/components/element-parent/component.jshint', ['exports'], f
   QUnit.module('JSHint | components/element-parent/component.js');
   QUnit.test('should pass jshint', function (assert) {
     assert.expect(1);
-    assert.ok(false, 'components/element-parent/component.js should pass jshint.\ncomponents/element-parent/component.js: line 133, col 9, \'keyDS\' is defined but never used.\ncomponents/element-parent/component.js: line 145, col 5, \'stickyHeaders\' is not defined.\ncomponents/element-parent/component.js: line 145, col 24, \'$\' is not defined.\n\n3 errors');
+    assert.ok(false, 'components/element-parent/component.js should pass jshint.\ncomponents/element-parent/component.js: line 146, col 9, \'keyDS\' is defined but never used.\ncomponents/element-parent/component.js: line 179, col 7, Forgotten \'debugger\' statement?\ncomponents/element-parent/component.js: line 158, col 5, \'stickyHeaders\' is not defined.\ncomponents/element-parent/component.js: line 158, col 24, \'$\' is not defined.\n\n4 errors');
   });
 });
 define('portal/tests/components/element-search-step/component.jshint', ['exports'], function (exports) {

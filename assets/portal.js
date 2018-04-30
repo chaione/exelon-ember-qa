@@ -2056,63 +2056,63 @@ define("portal/components/element-null/template", ["exports"], function (exports
     };
   })());
 });
-define('portal/components/element-parent/component', ['exports', 'ember'], function (exports, _ember) {
+define("portal/components/element-parent/component", ["exports", "ember"], function (exports, _ember) {
   var types = [{
-    name: 'Text',
-    icon: 'icn-input@2x',
-    value: 'text'
+    name: "Text",
+    icon: "icn-input@2x",
+    value: "text"
   }, {
-    name: 'Free Text',
-    icon: 'icn-freeinput@2x',
-    value: 'free-text'
+    name: "Free Text",
+    icon: "icn-freeinput@2x",
+    value: "free-text"
   }, {
-    name: 'Reseal Form',
-    icon: 'icn-form@2x',
-    value: 'reseal_form'
+    name: "Reseal Form",
+    icon: "icn-form@2x",
+    value: "reseal_form"
   }, {
-    name: 'Picture',
-    icon: 'icn-pic@2x',
-    value: 'visual_representations'
+    name: "Picture",
+    icon: "icn-pic@2x",
+    value: "visual_representations"
   }, {
-    name: 'Date',
-    icon: 'icn-date-toggle@2x',
-    value: 'date'
+    name: "Date",
+    icon: "icn-date-toggle@2x",
+    value: "date"
   }, {
-    name: 'Date View Only',
-    icon: 'icn-date@2x',
-    value: 'date-viewonly'
+    name: "Date View Only",
+    icon: "icn-date@2x",
+    value: "date-viewonly"
   }, {
-    name: 'Qualified',
-    icon: 'icn-qualified@2x',
-    value: 'qualified'
+    name: "Qualified",
+    icon: "icn-qualified@2x",
+    value: "qualified"
   }, {
-    name: 'CheckList Item',
-    icon: 'icn-checklist@2x',
-    value: 'checklist-item'
+    name: "CheckList Item",
+    icon: "icn-checklist@2x",
+    value: "checklist-item"
   }, {
-    name: 'Search Procedure',
-    icon: 'icn-instructions@2x',
-    value: 'label'
+    name: "Search Procedure",
+    icon: "icn-instructions@2x",
+    value: "label"
   }, {
-    name: 'Driver License Scan',
-    icon: 'icn-dlscanner@2x',
-    value: 'scannerdriverlicense'
+    name: "Driver License Scan",
+    icon: "icn-dlscanner@2x",
+    value: "scannerdriverlicense"
   }, {
-    name: 'License Plate Scan',
-    icon: 'icn-lpscanner@2x',
-    value: 'scannerlicenseplate'
+    name: "License Plate Scan",
+    icon: "icn-lpscanner@2x",
+    value: "scannerlicenseplate"
   }, {
-    name: 'Phone',
-    icon: 'icn-phone@2x',
-    value: 'phone'
+    name: "Phone",
+    icon: "icn-phone@2x",
+    value: "phone"
   }, {
-    name: 'Radial Buttons',
-    icon: 'icn-radial@2x',
-    value: 'radialbuttons'
+    name: "Radial Buttons",
+    icon: "icn-radial@2x",
+    value: "radialbuttons"
   }, {
-    name: 'Dropdown',
-    icon: 'icn-dropdown@2x',
-    value: 'dropdown'
+    name: "Dropdown",
+    icon: "icn-dropdown@2x",
+    value: "dropdown"
   }];
 
   // text  - ? place holder input, anything else?
@@ -2125,33 +2125,33 @@ define('portal/components/element-parent/component', ['exports', 'ember'], funct
   // checklist-item -?how  to save their different options
   // label
 
-  exports['default'] = _ember['default'].Component.extend({
-    store: _ember['default'].inject.service(),
-    showPlaceHolder: _ember['default'].computed('formElement.element_type', function () {
-      var element = this.get('formElement.element_type').toLowerCase();
+  exports["default"] = _ember["default"].Component.extend({
+    store: _ember["default"].inject.service(),
+    showPlaceHolder: _ember["default"].computed("formElement.element_type", function () {
+      var element = this.get("formElement.element_type").toLowerCase();
       var placeHolderElements = ["scannerdriverlicense", "scannerlicenseplate", "free-text", "phone"];
       if (placeHolderElements.indexOf(element) > -1) {
         return true;
       }
       return false;
     }),
-    numberOfRow: _ember['default'].computed('rowIndex', function () {
-      return this.get('rowIndex') + 1;
+    numberOfRow: _ember["default"].computed("rowIndex", function () {
+      return this.get("rowIndex") + 1;
     }),
-    indexBackgroundColor: _ember['default'].computed('rowIndex', function () {
-      return this.get('rowIndex') % 2 ? '#1d1d35' : '#0f0f1c';
+    indexBackgroundColor: _ember["default"].computed("rowIndex", function () {
+      return this.get("rowIndex") % 2 ? "#1d1d35" : "#0f0f1c";
     }),
-    elementType: _ember['default'].computed('formElement.element_type', function () {
-      var element = this.get('formElement.element_type').toLowerCase();
+    elementType: _ember["default"].computed("formElement.element_type", function () {
+      var element = this.get("formElement.element_type").toLowerCase();
       var basicElements = ["qualified", "visual_representations", "date", "date-viewonly", "radialbuttons", "reseal_form", "text", "scannerdriverlicense", "scannerlicenseplate", "free-text", "phone"];
       if (basicElements.indexOf(element) > -1) {
-        return 'basicComponent';
+        return "basicComponent";
       }
 
       return element;
     }),
-    classNames: ['element-parent'],
-    classNameBindings: ['isActive'],
+    classNames: ["element-parent"],
+    classNameBindings: ["isActive"],
     types: types.sort(function (a, b) {
       var nameA = a.name.toUpperCase();
       var nameB = b.name.toUpperCase();
@@ -2166,45 +2166,44 @@ define('portal/components/element-parent/component', ['exports', 'ember'], funct
     }),
 
     didInsertElement: function didInsertElement() {
-
       // console.log('didrender');
       this._super.apply(this, arguments);
 
-      var keyDS = this.get('keyDS');
-      this.set('currentKey', this.get('formElement').get('key'));
+      var keyDS = this.get("keyDS");
+      this.set("currentKey", this.get("formElement").get("key"));
 
       var typeLookup = types.reduce(function (o, item, index) {
         o[item.value.toLowerCase()] = index;
         return o;
       }, {});
-      var element = typeLookup[this.get('formElement.element_type').toLowerCase()];
+      var element = typeLookup[this.get("formElement.element_type").toLowerCase()];
       var elementType = types[element];
 
-      this.set('currentType', elementType);
+      this.set("currentType", elementType);
       stickyHeaders.load($(".followMeBar"));
     },
     isRequired: true,
     actions: {
-
       elementSaveForm: function elementSaveForm() {
-        this.sendAction('saveForm');
+        this.sendAction("saveForm");
       },
 
       createKey: function createKey(selection) {
         console.log("createKey", selection);
-        var keys = this.get('keys');
+        var keys = this.get("keys");
         keys.pushObject(selection);
-        this.set('keys', keys);
+        this.set("keys", keys);
 
-        this.set('currentKey', selection);
+        this.set("currentKey", selection);
 
-        this.set('formElement.key', selection);
+        this.set("formElement.key", selection);
         console.log(keys);
       },
 
       hideCreateOptionOnSameName: function hideCreateOptionOnSameName(key) {
+        debugger;
         var isExistingOption = false;
-        var keys = this.get('keys');
+        var keys = this.get("keys");
         for (var i = 0; i < types.length; i++) {
           if (keys[i] === key) {
             isExistingOption = true;
@@ -2214,34 +2213,34 @@ define('portal/components/element-parent/component', ['exports', 'ember'], funct
       },
 
       deleteElement: function deleteElement() {
-        this.sendAction('deleteElement', this.get('formElement.id'));
+        this.sendAction("deleteElement", this.get("formElement.id"));
       },
 
       onElementClick: function onElementClick() {
-        if (!this.get('isActive')) {
-          this.get('onElementClick')();
+        if (!this.get("isActive")) {
+          this.get("onElementClick")();
         }
       },
 
       onElementKeyClick: function onElementKeyClick(selection) {
-        this.set('currentKey', selection);
-        this.set('formElement.key', selection);
+        this.set("currentKey", selection);
+        this.set("formElement.key", selection);
       },
 
       onElementTypeClick: function onElementTypeClick(selection) {
-        this.set('currentType', selection);
-        this.set('formElement.element_type', selection.value);
-        if (selection.value === 'dropdown' && !this.get('formElement.metadata.dropdown-identifier')) {
-          this.set('formElement.metadata', { 'dropdown-identifier': '' });
+        this.set("currentType", selection);
+        this.set("formElement.element_type", selection.value);
+        if (selection.value === "dropdown" && !this.get("formElement.metadata.dropdown-identifier")) {
+          this.set("formElement.metadata", { "dropdown-identifier": "" });
         }
       },
 
       requiredChanged: function requiredChanged() {
-        this.set('formElement.required', !this.get('formElement.required'));
+        this.set("formElement.required", !this.get("formElement.required"));
       },
 
       updateCurrentKey: function updateCurrentKey(newKey) {
-        this.set('currentKey', newKey);
+        this.set("currentKey", newKey);
       }
     }
   });
@@ -6934,7 +6933,7 @@ catch(err) {
 /* jshint ignore:start */
 
 if (!runningTests) {
-  require("portal/app")["default"].create({"environment":"dev","name":"portal","version":"0.0.0+3526f6ad"});
+  require("portal/app")["default"].create({"environment":"qa","name":"portal","version":"0.0.0+3526f6ad"});
 }
 
 /* jshint ignore:end */
